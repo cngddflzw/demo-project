@@ -15,9 +15,9 @@ import javax.ws.rs.core.MediaType;
 @Path("demo")
 @Service(
         version = "${demo.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
+        application = "${dubbo.applications.demoapp.id}",
+        protocol = {"${dubbo.protocols.rest.id}", "${dubbo.protocols.dubbo.id}"},
+        registry = "${dubbo.registries.zk.id}"
 )
 public class RestDemoService implements DemoService {
 
