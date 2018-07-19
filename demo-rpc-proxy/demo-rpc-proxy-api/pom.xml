@@ -3,12 +3,22 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>demo-motan-sample</artifactId>
+        <artifactId>demo-rpc-proxy</artifactId>
         <groupId>com.zim.demo</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>demo-motan-sample-provider</artifactId>
+    <artifactId>demo-rpc-proxy-api</artifactId>
 
+    <description>
+        定义了 proxy 和 rpc-provider 之间的交互协议以及交互接口和对象
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
 </project>
