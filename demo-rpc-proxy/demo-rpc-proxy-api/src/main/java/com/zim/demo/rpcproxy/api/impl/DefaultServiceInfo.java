@@ -1,6 +1,7 @@
 package com.zim.demo.rpcproxy.api.impl;
 
 import com.zim.demo.rpcproxy.api.ServiceInfo;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author zhenwei.liu
@@ -8,9 +9,14 @@ import com.zim.demo.rpcproxy.api.ServiceInfo;
  */
 public class DefaultServiceInfo implements ServiceInfo {
 
+    @NotNull
     private String name;
+
+    @NotNull
     private String version;
-    private String gorup;
+
+    @NotNull
+    private String group;
 
     public String getName() {
         return name;
@@ -30,12 +36,12 @@ public class DefaultServiceInfo implements ServiceInfo {
         return this;
     }
 
-    public String getGorup() {
-        return gorup;
+    public String getGroup() {
+        return group;
     }
 
-    public DefaultServiceInfo setGorup(String gorup) {
-        this.gorup = gorup;
+    public DefaultServiceInfo setGroup(String group) {
+        this.group = group;
         return this;
     }
 
@@ -51,6 +57,6 @@ public class DefaultServiceInfo implements ServiceInfo {
 
     @Override
     public String group() {
-        return group();
+        return group;
     }
 }

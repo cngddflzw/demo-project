@@ -38,9 +38,9 @@ public class Dubbo2HeterogeneousService implements GenericService {
 
         String interfaceName = RpcContext.getContext().getUrl().getServiceInterface();
 
-        DefaultInvocation invocation = new DefaultInvocation();
-        invocation.setInterfaceName(interfaceName);
-        invocation.setMethodName(method);
+        DefaultInvocation invocation = new DefaultInvocation()
+                .setInterfaceName(interfaceName)
+                .setMethodName(method);
 
         for (int i = 0; i < parameterTypes.length; i++) {
             invocation.addParam(parameterTypes[i], args[i]);

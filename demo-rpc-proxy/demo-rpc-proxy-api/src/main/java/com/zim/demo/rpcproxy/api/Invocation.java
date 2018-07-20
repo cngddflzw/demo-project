@@ -1,6 +1,6 @@
 package com.zim.demo.rpcproxy.api;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 泛化调用参数
@@ -12,7 +12,13 @@ public interface Invocation {
 
     String interfaceName();
 
+    String group();
+
+    String version();
+
     String methodName();
 
-    Map<String, Object> params();
+    List<String> paramTypes();
+
+    List<Object> paramVals();
 }

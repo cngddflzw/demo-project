@@ -16,6 +16,7 @@
         <module>demo-dubbo-spring-boot</module>
         <module>demo-dubbo-api</module>
         <module>demo-dubbo-rest</module>
+        <module>demo-dubbo-generic</module>
     </modules>
 
     <dependencies>

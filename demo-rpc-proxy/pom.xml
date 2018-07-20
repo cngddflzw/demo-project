@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.zim.demo.rpcproxy</groupId>
     <artifactId>demo-rpc-proxy</artifactId>
     <packaging>pom</packaging>
     <modules>
@@ -21,13 +22,13 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.zim.demo</groupId>
+                <groupId>com.zim.demo.rpcproxy</groupId>
                 <artifactId>demo-rpc-proxy-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.zim.demo</groupId>
+                <groupId>com.zim.demo.rpcproxy</groupId>
                 <artifactId>demo-rpc-proxy-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -60,6 +61,12 @@
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.verison}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,8 +1,10 @@
 package com.zim.demo.rpcproxy.api.impl;
 
-import com.google.common.collect.Maps;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.zim.demo.rpcproxy.api.Invocation;
-import java.util.Map;
+import java.util.List;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author zhenwei.liu
@@ -10,11 +12,20 @@ import java.util.Map;
  */
 public class DefaultInvocation implements Invocation {
 
+    @NotNull
     private String interfaceName;
 
+    @NotNull
+    private String group;
+
+    @NotNull
+    private String version;
+
+    @NotNull
     private String methodName;
 
-    private Map<String, Object> params;
+    private List<String> paramTypes;
+    private List<Object> paramVals;
 
     public String getInterfaceName() {
         return interfaceName;
@@ -22,6 +33,24 @@ public class DefaultInvocation implements Invocation {
 
     public DefaultInvocation setInterfaceName(String interfaceName) {
         this.interfaceName = interfaceName;
+        return this;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public DefaultInvocation setGroup(String group) {
+        this.group = group;
+        return this;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public DefaultInvocation setVersion(String version) {
+        this.version = version;
         return this;
     }
 
@@ -34,21 +63,39 @@ public class DefaultInvocation implements Invocation {
         return this;
     }
 
-    public Map<String, Object> getParams() {
-        return params;
+    public List<String> getParamTypes() {
+        return paramTypes;
     }
 
-    public DefaultInvocation setParams(Map<String, Object> params) {
-        this.params = params;
+    public DefaultInvocation setParamTypes(List<String> paramTypes) {
+        this.paramTypes = paramTypes;
         return this;
     }
 
-    public DefaultInvocation addParam(String key, Object val) {
-        if (params == null) {
-            params = Maps.newHashMap();
+    public List<Object> getParamVals() {
+        return paramVals;
+    }
+
+    public DefaultInvocation setParamVals(List<Object> paramVals) {
+        this.paramVals = paramVals;
+        return this;
+    }
+
+    public void addParam(String type, Object val) {
+
+        if (paramTypes == null) {
+            paramTypes = Lists.newArrayList();
         }
-        params.put(key, val);
-        return this;
+
+        if (paramVals == null) {
+            paramVals = Lists.newArrayList();
+        }
+
+        Preconditions.checkState(paramTypes.size() == paramVals.size(),
+                "paramTypes.size() must equal to paramVals.size()");
+
+        paramTypes.add(type);
+        paramVals.add(val);
     }
 
     @Override
@@ -57,12 +104,27 @@ public class DefaultInvocation implements Invocation {
     }
 
     @Override
+    public String group() {
+        return group;
+    }
+
+    @Override
+    public String version() {
+        return version;
+    }
+
+    @Override
     public String methodName() {
         return methodName;
     }
 
     @Override
-    public Map<String, Object> params() {
-        return params;
+    public List<String> paramTypes() {
+        return paramTypes;
+    }
+
+    @Override
+    public List<Object> paramVals() {
+        return paramVals;
     }
 }

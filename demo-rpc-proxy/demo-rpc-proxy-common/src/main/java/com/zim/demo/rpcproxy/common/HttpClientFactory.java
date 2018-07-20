@@ -15,8 +15,8 @@ public class HttpClientFactory {
         ConnectionPool cp = new ConnectionPool(10, 5, TimeUnit.SECONDS);
 
         return new Builder()
-                .connectTimeout(1000, TimeUnit.MILLISECONDS)
-                .readTimeout(5000, TimeUnit.MILLISECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(1, TimeUnit.MINUTES)
                 .followRedirects(false)
                 .connectionPool(cp)
                 .build();

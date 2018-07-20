@@ -4,12 +4,14 @@ import com.alibaba.dubbo.rpc.service.GenericService;
 import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.api.RegistryService;
 import com.zim.demo.rpcproxy.common.HttpClientFactory;
+import com.zim.demo.rpcproxy.sidecar.common.DefaultServiceKeyGenerator;
 import com.zim.demo.rpcproxy.sidecar.common.InvocationResultToMapParser;
 import com.zim.demo.rpcproxy.sidecar.common.Json2InvocationResultParser;
 import com.zim.demo.rpcproxy.sidecar.common.JsonSerializer;
 import com.zim.demo.rpcproxy.sidecar.common.MapToInvocationResultParser;
 import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
 import com.zim.demo.rpcproxy.sidecar.common.Serializer;
+import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
 import com.zim.demo.rpcproxy.sidecar.config.Application;
 import com.zim.demo.rpcproxy.sidecar.config.Protocol;
 import com.zim.demo.rpcproxy.sidecar.config.RegisterConfig;
@@ -130,15 +132,26 @@ public class SidecarConfiguration {
     }
 
     @Bean
-    public RegistryService registryService(RegisterConfig registerConfig,
-            GenericService genericService) {
-        return new DubboRegistryService(registerConfig, genericService);
+    public ServiceKeyGenerator serviceKeyGenerator() {
+        return DefaultServiceKeyGenerator.INSTANCE;
     }
 
     @Bean
-    public Heterogeneous2DubboService heterogeneous2DubboService(RegisterConfig registerConfig,
-            ResponseParser<Map<String, Object>, InvocationResult> mapToInvocationResultParser) {
-        return new Heterogeneous2DubboService(registerConfig, mapToInvocationResultParser);
+    public RegistryService registryService(
+            RegisterConfig registerConfig,
+            GenericService genericService,
+            ServiceKeyGenerator serviceKeyGenerator) {
+        return new DubboRegistryService(registerConfig, genericService, serviceKeyGenerator);
+    }
+
+    @Bean
+    public Heterogeneous2DubboService heterogeneous2DubboService(
+            RegisterConfig registerConfig,
+            ResponseParser<Map<String, Object>, InvocationResult> mapToInvocationResultParser,
+            ServiceKeyGenerator serviceKeyGenerator
+    ) {
+        return new Heterogeneous2DubboService(registerConfig, serviceKeyGenerator,
+                mapToInvocationResultParser);
     }
 
     @Bean

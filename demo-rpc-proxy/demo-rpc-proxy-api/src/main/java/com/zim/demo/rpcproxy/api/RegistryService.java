@@ -11,6 +11,7 @@ public interface RegistryService {
     /**
      * 服务注册, 用于注册异构服务
      *
+     * // TODO 代理必须有一个机制, 用于探测服务是否在线, 还是说我们默认只要 proxy 在线, 后面的服务就在线
      * @param serviceInfo 服务信息
      */
     void register(ServiceInfo serviceInfo);

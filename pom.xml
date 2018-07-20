@@ -31,6 +31,7 @@
         <httpclient.version>4.5.6</httpclient.version>
         <guava.version>25.1-jre</guava.version>
         <okhttp.version>3.11.0</okhttp.version>
+        <curator.verison>2.12.0</curator.verison>
     </properties>
 
     <dependencyManagement>

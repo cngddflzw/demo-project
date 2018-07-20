@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="encoderPattern" value="[%d{yyyy-MM-dd HH:mm:ss} %X{appCode} %X{dataSet} %5p %c] %m%n" />
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${encoderPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="consoleAppender"/>
+    </root>
+</configuration>
