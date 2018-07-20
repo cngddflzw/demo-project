@@ -17,6 +17,7 @@
         <module>demo-rpc-proxy-sidecar</module>
         <module>demo-rpc-proxy-heterogeneous</module>
         <module>demo-rpc-proxy-common</module>
+        <module>demo-rpc-proxy-java</module>
     </modules>
 
     <dependencyManagement>

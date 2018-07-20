@@ -28,11 +28,11 @@ public class Heterogeneous2DubboService implements InvocationService {
     private final Map<String, GenericService> serviceMap = Maps.newHashMap();
     private final RegisterConfig registerConfig;
     private final ServiceKeyGenerator serviceKeyGenerator;
-    private final ResponseParser<Map<String, Object>, InvocationResult> responseParser;
+    private final ResponseParser<Object, InvocationResult> responseParser;
 
     public Heterogeneous2DubboService(RegisterConfig registerConfig,
             ServiceKeyGenerator serviceKeyGenerator,
-            ResponseParser<Map<String, Object>, InvocationResult> responseParser) {
+            ResponseParser<Object, InvocationResult> responseParser) {
         this.registerConfig = registerConfig;
         this.serviceKeyGenerator = serviceKeyGenerator;
         this.responseParser = responseParser;
@@ -66,7 +66,7 @@ public class Heterogeneous2DubboService implements InvocationService {
                     String.format("service %s 不存在, 请先 refer 该 service", serviceKey));
         }
         String methodName = invocation.methodName();
-        Map<String, Object> result = (Map<String, Object>) service
+        Object result = service
                 .$invoke(methodName, invocation.paramTypes().toArray(PARAM_TYPE_TOKEN),
                         invocation.paramVals().toArray());
         return responseParser.parse(result);
@@ -86,6 +86,7 @@ public class Heterogeneous2DubboService implements InvocationService {
 
         referenceConfig.setApplication(application);
         referenceConfig.setRegistry(registry);
+        referenceConfig.setGeneric(true);
 
         return referenceConfig;
     }

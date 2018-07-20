@@ -8,7 +8,7 @@ import com.zim.demo.rpcproxy.sidecar.common.DefaultServiceKeyGenerator;
 import com.zim.demo.rpcproxy.sidecar.common.InvocationResultToMapParser;
 import com.zim.demo.rpcproxy.sidecar.common.Json2InvocationResultParser;
 import com.zim.demo.rpcproxy.sidecar.common.JsonSerializer;
-import com.zim.demo.rpcproxy.sidecar.common.MapToInvocationResultParser;
+import com.zim.demo.rpcproxy.sidecar.common.ObjectToInvocationResultParser;
 import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
 import com.zim.demo.rpcproxy.sidecar.common.Serializer;
 import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
@@ -79,8 +79,8 @@ public class SidecarConfiguration {
     }
 
     @Bean
-    public ResponseParser<Map<String, Object>, InvocationResult> mapToInvocationResultParser() {
-        return new MapToInvocationResultParser();
+    public ResponseParser<Object, InvocationResult> mapToInvocationResultParser() {
+        return new ObjectToInvocationResultParser();
     }
     /* response parsers **/
 
@@ -147,11 +147,11 @@ public class SidecarConfiguration {
     @Bean
     public Heterogeneous2DubboService heterogeneous2DubboService(
             RegisterConfig registerConfig,
-            ResponseParser<Map<String, Object>, InvocationResult> mapToInvocationResultParser,
+            ResponseParser<Object, InvocationResult> objectToInvocationResultParser,
             ServiceKeyGenerator serviceKeyGenerator
     ) {
         return new Heterogeneous2DubboService(registerConfig, serviceKeyGenerator,
-                mapToInvocationResultParser);
+                objectToInvocationResultParser);
     }
 
     @Bean

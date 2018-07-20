@@ -9,14 +9,14 @@ import java.util.Map;
  * @author zhenwei.liu
  * @since 2018-07-20
  */
-public class MapToInvocationResultParser implements
-        ResponseParser<Map<String, Object>, InvocationResult> {
+public class ObjectToInvocationResultParser implements
+        ResponseParser<Object, InvocationResult> {
 
     @Override
-    public InvocationResult parse(Map<String, Object> input) {
+    public InvocationResult parse(Object input) {
         DefaultInvocationResult result = new DefaultInvocationResult();
         result.setCode(0);
-        result.setData(JSON.toJSONString(input));
+        result.setData(input);
         return result;
     }
 }
