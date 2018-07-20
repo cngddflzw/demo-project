@@ -1,39 +1,50 @@
 package com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous;
 
-import com.zim.demo.rpcproxy.sidecar.exception.DelegateInvokeException;
+import com.zim.demo.rpcproxy.api.InvocationResult;
+import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
+import com.zim.demo.rpcproxy.sidecar.exception.Java2HeterogeneousException;
 import java.io.IOException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Request.Builder;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 /**
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public class HttpRequestSender implements RequestSender<String, Object> {
+public class HttpRequestSender implements RequestSender<InvocationResult> {
 
-    private final HttpClient client;
+    private final OkHttpClient httpClient;
     private final String requestUrl;
+    private ResponseParser<String, InvocationResult> responseParser;
 
-    public HttpRequestSender(HttpClient client, String requestUrl) {
-        this.client = client;
+    public HttpRequestSender(OkHttpClient httpClient, String requestUrl,
+            ResponseParser<String, InvocationResult> responseParser) {
+        this.httpClient = httpClient;
         this.requestUrl = requestUrl;
+        this.responseParser = responseParser;
     }
 
     @Override
-    public Object send(String postData) {
-        HttpPost post = new HttpPost(requestUrl);
-        StringEntity entity = new StringEntity(postData,
-                ContentType.create("application/json", "UTF-8"));
-        post.setEntity(entity);
+    public InvocationResult send(Object postData) {
+        Request request = new Builder()
+                .url(requestUrl)
+                .post(RequestBody.create(MediaType.parse("application/json"), postData.toString()))
+                .build();
+
         try {
-            HttpResponse response = client.execute(post);
-            return EntityUtils.toString(response.getEntity());
+            ResponseBody body = httpClient.newCall(request).execute().body();
+            if (body != null) {
+                return responseParser.parse(body.string());
+            } else {
+                throw new Java2HeterogeneousException(
+                        String.format("request %s delegate return empty data", postData));
+            }
         } catch (IOException e) {
-            throw new DelegateInvokeException(e);
+            throw new Java2HeterogeneousException(e);
         }
     }
 }

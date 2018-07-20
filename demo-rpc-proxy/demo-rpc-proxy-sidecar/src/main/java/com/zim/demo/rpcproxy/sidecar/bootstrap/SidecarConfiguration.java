@@ -1,10 +1,13 @@
 package com.zim.demo.rpcproxy.sidecar.bootstrap;
 
 import com.alibaba.dubbo.rpc.service.GenericService;
+import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.api.RegistryService;
-import com.zim.demo.rpcproxy.sidecar.common.HttpClientFactory;
-import com.zim.demo.rpcproxy.sidecar.common.JsonResponseParser;
+import com.zim.demo.rpcproxy.common.HttpClientFactory;
+import com.zim.demo.rpcproxy.sidecar.common.InvocationResultToMapParser;
+import com.zim.demo.rpcproxy.sidecar.common.Json2InvocationResultParser;
 import com.zim.demo.rpcproxy.sidecar.common.JsonSerializer;
+import com.zim.demo.rpcproxy.sidecar.common.MapToInvocationResultParser;
 import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
 import com.zim.demo.rpcproxy.sidecar.common.Serializer;
 import com.zim.demo.rpcproxy.sidecar.config.Application;
@@ -19,8 +22,9 @@ import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.DubboRegistryServic
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.HttpRequestSender;
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.RequestSender;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
-import org.apache.http.client.HttpClient;
+import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -61,28 +65,43 @@ public class SidecarConfiguration {
         return new JsonSerializer();
     }
 
+    /* response parsers **/
     @Bean
-    public ResponseParser<Object> responseParser() {
-        return new JsonResponseParser();
+    public ResponseParser<String, InvocationResult> json2InvocationResultParser() {
+        return new Json2InvocationResultParser();
     }
 
     @Bean
-    public RequestSender<String, Object> requestSender(HttpClient httpClient) {
-        return new HttpRequestSender(httpClient, CONF.getProperty(HETEROGENEOUS_REQUEST_URL));
+    public ResponseParser<InvocationResult, Map<String, Object>> invocationResultToMapParser() {
+        return new InvocationResultToMapParser();
     }
 
     @Bean
-    public HttpClient httpClient() {
+    public ResponseParser<Map<String, Object>, InvocationResult> mapToInvocationResultParser() {
+        return new MapToInvocationResultParser();
+    }
+    /* response parsers **/
+
+    @Bean
+    public RequestSender<InvocationResult> requestSender(OkHttpClient httpClient,
+            ResponseParser<String, InvocationResult> json2InvocationResultParser) {
+        return new HttpRequestSender(httpClient, CONF.getProperty(HETEROGENEOUS_REQUEST_URL),
+                json2InvocationResultParser);
+    }
+
+    @Bean
+    public OkHttpClient httpClient() {
         return HttpClientFactory.createClient();
     }
 
     @Bean
     public GenericService genericService(
             Serializer<String> serializer,
-            ResponseParser<Object> responseParser,
-            RequestSender<String, Object> requestSender
+            RequestSender<InvocationResult> requestSender,
+            ResponseParser<InvocationResult, Map<String, Object>> invocationResultToMapParser
     ) {
-        return new Dubbo2HeterogeneousService(serializer, responseParser, requestSender);
+        return new Dubbo2HeterogeneousService(serializer, requestSender,
+                invocationResultToMapParser);
     }
 
     @Bean
@@ -118,8 +137,8 @@ public class SidecarConfiguration {
 
     @Bean
     public Heterogeneous2DubboService heterogeneous2DubboService(RegisterConfig registerConfig,
-            ResponseParser<Object> responseParser) {
-        return new Heterogeneous2DubboService(registerConfig, responseParser);
+            ResponseParser<Map<String, Object>, InvocationResult> mapToInvocationResultParser) {
+        return new Heterogeneous2DubboService(registerConfig, mapToInvocationResultParser);
     }
 
     @Bean

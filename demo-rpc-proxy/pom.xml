@@ -14,6 +14,8 @@
     <modules>
         <module>demo-rpc-proxy-api</module>
         <module>demo-rpc-proxy-sidecar</module>
+        <module>demo-rpc-proxy-heterogeneous</module>
+        <module>demo-rpc-proxy-common</module>
     </modules>
 
     <dependencyManagement>
@@ -21,6 +23,12 @@
             <dependency>
                 <groupId>com.zim.demo</groupId>
                 <artifactId>demo-rpc-proxy-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zim.demo</groupId>
+                <artifactId>demo-rpc-proxy-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -37,12 +45,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
@@ -52,6 +54,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

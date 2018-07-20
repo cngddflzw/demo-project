@@ -9,7 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>demo-rpc-proxy-sidecar</artifactId>
+    <artifactId>demo-rpc-proxy-heterogeneous</artifactId>
+
+    <description>
+        模拟异构语言对 Java 服务的调用流程
+    </description>
 
     <dependencies>
         <dependency>
@@ -20,21 +24,6 @@
         <dependency>
             <groupId>com.zim.demo</groupId>
             <artifactId>demo-rpc-proxy-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dubbo</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 </project>

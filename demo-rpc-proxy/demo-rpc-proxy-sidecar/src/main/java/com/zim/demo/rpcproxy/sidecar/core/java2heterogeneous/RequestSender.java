@@ -9,7 +9,7 @@ package com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public interface RequestSender<Input, Output> {
+public interface RequestSender<Output> {
 
-    Output send(Input input);
+    Output send(Object data);
 }
