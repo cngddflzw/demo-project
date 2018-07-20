@@ -3,7 +3,7 @@ package com.zim.demo.rpcproxy.sidecar.core;
 import com.zim.demo.rpcproxy.api.Invocation;
 import com.zim.demo.rpcproxy.api.RegistryService;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
-import com.zim.demo.rpcproxy.sidecar.core.heterogeneous2java.Heterogeneous2DubboService;
+import com.zim.demo.rpcproxy.sidecar.core.heterogeneous2java.Heterogeneous2JavaService;
 
 /**
  * @author zhenwei.liu
@@ -13,23 +13,23 @@ public class DubboSidecarService implements SidecarService {
 
     private RegistryService registryService;
 
-    private Heterogeneous2DubboService heterogeneous2DubboService;
+    private Heterogeneous2JavaService heterogeneous2JavaService;
 
     public DubboSidecarService(
             RegistryService registryService,
-            Heterogeneous2DubboService heterogeneous2DubboService) {
+            Heterogeneous2JavaService heterogeneous2JavaService) {
         this.registryService = registryService;
-        this.heterogeneous2DubboService = heterogeneous2DubboService;
+        this.heterogeneous2JavaService = heterogeneous2JavaService;
     }
 
     @Override
     public void refer(ServiceInfo serviceInfo) {
-        heterogeneous2DubboService.refer(serviceInfo);
+        heterogeneous2JavaService.refer(serviceInfo);
     }
 
     @Override
     public Object invoke(Invocation invocation) {
-        return heterogeneous2DubboService.invoke(invocation);
+        return heterogeneous2JavaService.invoke(invocation);
     }
 
     @Override

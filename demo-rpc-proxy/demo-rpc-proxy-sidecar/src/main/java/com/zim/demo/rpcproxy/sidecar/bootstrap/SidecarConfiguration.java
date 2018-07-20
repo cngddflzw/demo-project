@@ -5,7 +5,6 @@ import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.api.RegistryService;
 import com.zim.demo.rpcproxy.common.HttpClientFactory;
 import com.zim.demo.rpcproxy.sidecar.common.DefaultServiceKeyGenerator;
-import com.zim.demo.rpcproxy.sidecar.common.InvocationResultToMapParser;
 import com.zim.demo.rpcproxy.sidecar.common.Json2InvocationResultParser;
 import com.zim.demo.rpcproxy.sidecar.common.JsonSerializer;
 import com.zim.demo.rpcproxy.sidecar.common.ObjectToInvocationResultParser;
@@ -18,13 +17,12 @@ import com.zim.demo.rpcproxy.sidecar.config.RegisterConfig;
 import com.zim.demo.rpcproxy.sidecar.config.Registry;
 import com.zim.demo.rpcproxy.sidecar.core.DubboSidecarService;
 import com.zim.demo.rpcproxy.sidecar.core.SidecarService;
-import com.zim.demo.rpcproxy.sidecar.core.heterogeneous2java.Heterogeneous2DubboService;
-import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.Dubbo2HeterogeneousService;
+import com.zim.demo.rpcproxy.sidecar.core.heterogeneous2java.Heterogeneous2JavaService;
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.DubboRegistryService;
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.HttpRequestSender;
+import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.Java2HeterogeneousService;
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.RequestSender;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Properties;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
@@ -74,11 +72,6 @@ public class SidecarConfiguration {
     }
 
     @Bean
-    public ResponseParser<InvocationResult, Map<String, Object>> invocationResultToMapParser() {
-        return new InvocationResultToMapParser();
-    }
-
-    @Bean
     public ResponseParser<Object, InvocationResult> mapToInvocationResultParser() {
         return new ObjectToInvocationResultParser();
     }
@@ -99,11 +92,9 @@ public class SidecarConfiguration {
     @Bean
     public GenericService genericService(
             Serializer<String> serializer,
-            RequestSender<InvocationResult> requestSender,
-            ResponseParser<InvocationResult, Map<String, Object>> invocationResultToMapParser
+            RequestSender<InvocationResult> requestSender
     ) {
-        return new Dubbo2HeterogeneousService(serializer, requestSender,
-                invocationResultToMapParser);
+        return new Java2HeterogeneousService(serializer, requestSender);
     }
 
     @Bean
@@ -145,18 +136,18 @@ public class SidecarConfiguration {
     }
 
     @Bean
-    public Heterogeneous2DubboService heterogeneous2DubboService(
+    public Heterogeneous2JavaService heterogeneous2DubboService(
             RegisterConfig registerConfig,
             ResponseParser<Object, InvocationResult> objectToInvocationResultParser,
             ServiceKeyGenerator serviceKeyGenerator
     ) {
-        return new Heterogeneous2DubboService(registerConfig, serviceKeyGenerator,
+        return new Heterogeneous2JavaService(registerConfig, serviceKeyGenerator,
                 objectToInvocationResultParser);
     }
 
     @Bean
     public SidecarService sidecarService(RegistryService registryService,
-            Heterogeneous2DubboService heterogeneous2DubboService) {
-        return new DubboSidecarService(registryService, heterogeneous2DubboService);
+            Heterogeneous2JavaService heterogeneous2JavaService) {
+        return new DubboSidecarService(registryService, heterogeneous2JavaService);
     }
 }

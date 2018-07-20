@@ -15,6 +15,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
+ * 异构语言调用 java 服务
+ *
  * @author zhenwei.liu
  * @since 2018-07-20
  */

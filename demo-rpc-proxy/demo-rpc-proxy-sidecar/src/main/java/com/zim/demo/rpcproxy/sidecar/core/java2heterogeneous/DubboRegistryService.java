@@ -41,20 +41,21 @@ public class DubboRegistryService implements RegistryService {
         String serviceKey = serviceKeyGenerator.generate(serviceInfo);
 
         synchronized (serviceKey.intern()) {
-            if (!serviceMap.containsKey(serviceKey)) {
-                ServiceConfig<GenericService> serviceConfig = initServiceConfig();
-
-                serviceConfig.setInterface(serviceInfo.name());
-                serviceConfig.setVersion(serviceInfo.version());
-                serviceConfig.setGroup(serviceInfo.group());
-                serviceConfig.export();
-
-                serviceMap.put(serviceKey, serviceConfig);
-
-                LOGGER.info("service {} registered successfully", serviceKey);
-            } else {
-                LOGGER.warn("service {} registered duplicately", serviceKey);
+            ServiceConfig<GenericService> old = serviceMap.get(serviceKey);
+            if (old != null) {
+                old.unexport();
+                serviceMap.remove(serviceKey);
             }
+            ServiceConfig<GenericService> serviceConfig = initServiceConfig();
+
+            serviceConfig.setInterface(serviceInfo.name());
+            serviceConfig.setVersion(serviceInfo.version());
+            serviceConfig.setGroup(serviceInfo.group());
+            serviceConfig.export();
+
+            serviceMap.put(serviceKey, serviceConfig);
+
+            LOGGER.info("service {} registered successfully", serviceKey);
         }
     }
 
@@ -65,6 +66,7 @@ public class DubboRegistryService implements RegistryService {
             ServiceConfig<GenericService> serviceConfig = serviceMap.get(serviceKey);
             if (serviceConfig != null) {
                 serviceConfig.unexport();
+                serviceMap.remove(serviceKey);
             }
         }
     }

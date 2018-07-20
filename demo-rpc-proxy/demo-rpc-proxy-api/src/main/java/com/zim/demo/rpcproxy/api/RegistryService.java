@@ -11,7 +11,9 @@ public interface RegistryService {
     /**
      * 服务注册, 用于注册异构服务
      *
-     * // TODO 代理必须有一个机制, 用于探测服务是否在线, 还是说我们默认只要 proxy 在线, 后面的服务就在线
+     * TODO 1. 代理必须有一个机制, 用于探测服务是否在线, 还是说我们默认只要 proxy 在线, 后面的服务就在线
+     * TODO 2. Sidecar 重启以后谁来帮忙重新注册服务
+     * TODO 3. 考虑 heterogeneous 掉线, 重新上线等, 是否会影响服务稳定性
      * @param serviceInfo 服务信息
      */
     void register(ServiceInfo serviceInfo);

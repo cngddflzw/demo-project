@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Request.Builder;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
@@ -36,12 +37,21 @@ public class HttpRequestSender implements RequestSender<InvocationResult> {
                 .build();
 
         try {
-            ResponseBody body = httpClient.newCall(request).execute().body();
-            if (body != null) {
+            Response execute = httpClient.newCall(request).execute();
+            int code = execute.code();
+            String message = execute.message();
+            ResponseBody body = execute.body();
+            if (code != 200) {
+                throw new Java2HeterogeneousException(
+                        String.format(
+                                "request heterogeneous service error code %s message %s, post data: %s",
+                                code, message, postData));
+            } else if (body != null) {
                 return responseParser.parse(body.string());
             } else {
-                throw new Java2HeterogeneousException(
-                        String.format("request %s delegate return empty data", postData));
+                throw new Java2HeterogeneousException(String.format(
+                        "request heterogeneous service return empty result, post data: %s",
+                        postData));
             }
         } catch (IOException e) {
             throw new Java2HeterogeneousException(e);

@@ -21,7 +21,7 @@ import java.util.Map;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public class Heterogeneous2DubboService implements InvocationService {
+public class Heterogeneous2JavaService implements InvocationService {
 
     private static final String[] PARAM_TYPE_TOKEN = new String[0];
 
@@ -30,7 +30,7 @@ public class Heterogeneous2DubboService implements InvocationService {
     private final ServiceKeyGenerator serviceKeyGenerator;
     private final ResponseParser<Object, InvocationResult> responseParser;
 
-    public Heterogeneous2DubboService(RegisterConfig registerConfig,
+    public Heterogeneous2JavaService(RegisterConfig registerConfig,
             ServiceKeyGenerator serviceKeyGenerator,
             ResponseParser<Object, InvocationResult> responseParser) {
         this.registerConfig = registerConfig;
