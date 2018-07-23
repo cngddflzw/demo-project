@@ -40,7 +40,7 @@ public class Heterogeneous2JavaService implements ReferService {
 
     @Override
     public void refer(ServiceInfo serviceInfo) {
-        String serviceName = serviceInfo.name();
+        String serviceName = serviceInfo.serviceName();
 
         ReferenceConfig<GenericService> referenceConfig = initReferenceConfig();
         referenceConfig.setInterface(serviceName);

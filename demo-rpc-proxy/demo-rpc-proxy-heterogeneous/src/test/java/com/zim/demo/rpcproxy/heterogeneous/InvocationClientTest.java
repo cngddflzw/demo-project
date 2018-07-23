@@ -29,7 +29,7 @@ public class InvocationClientTest {
     @Test
     public void testRegister() {
         DefaultServiceInfo serviceInfo = new DefaultServiceInfo();
-        serviceInfo.setName(HETEROGENEOUS_SERVICE_NAME);
+        serviceInfo.setServiceName(HETEROGENEOUS_SERVICE_NAME);
         serviceInfo.setVersion("1.0.0");
         serviceInfo.setGroup("arch");
         invocationClient.export(serviceInfo);
@@ -38,7 +38,7 @@ public class InvocationClientTest {
     @Test
     public void testUnregister() {
         DefaultServiceInfo serviceInfo = new DefaultServiceInfo();
-        serviceInfo.setName(HETEROGENEOUS_SERVICE_NAME);
+        serviceInfo.setServiceName(HETEROGENEOUS_SERVICE_NAME);
         serviceInfo.setVersion("1.0.0");
         serviceInfo.setGroup("arch");
         invocationClient.unexport(serviceInfo);
@@ -47,7 +47,7 @@ public class InvocationClientTest {
     @Test
     public void testReferAndInvokeService() {
         DefaultServiceInfo serviceInfo = new DefaultServiceInfo();
-        serviceInfo.setName(REFER_SERVICE_NAME);
+        serviceInfo.setServiceName(REFER_SERVICE_NAME);
         serviceInfo.setVersion("1.0.0");
         serviceInfo.setGroup("arch");
         invocationClient.refer(serviceInfo);

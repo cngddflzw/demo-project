@@ -15,7 +15,7 @@ public class DefaultServiceKeyGenerator implements ServiceKeyGenerator {
 
     @Override
     public String generate(ServiceInfo serviceInfo) {
-        return serviceInfo.name() + SEP +
+        return serviceInfo.serviceName() + SEP +
                 serviceInfo.group() + SEP +
                 serviceInfo.version();
     }

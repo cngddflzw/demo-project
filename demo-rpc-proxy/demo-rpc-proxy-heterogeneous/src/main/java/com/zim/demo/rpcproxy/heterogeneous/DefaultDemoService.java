@@ -36,7 +36,7 @@ public class DefaultDemoService implements DemoService, InitializingBean, Dispos
 
     private ServiceInfo createServiceInfo() {
         return new DefaultServiceInfo()
-                .setName("com.zim.demo.rpcproxy.heterogeneous.DemoService")
+                .setServiceName("com.zim.demo.rpcproxy.heterogeneous.DemoService")
                 .setVersion("1.0.0")
                 .setGroup("arch");
     }

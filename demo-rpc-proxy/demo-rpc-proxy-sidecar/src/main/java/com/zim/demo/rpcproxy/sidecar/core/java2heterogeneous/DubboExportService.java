@@ -48,7 +48,7 @@ public class DubboExportService implements ExportService {
             }
             ServiceConfig<GenericService> serviceConfig = initServiceConfig();
 
-            serviceConfig.setInterface(serviceInfo.name());
+            serviceConfig.setInterface(serviceInfo.serviceName());
             serviceConfig.setVersion(serviceInfo.version());
             serviceConfig.setGroup(serviceInfo.group());
             serviceConfig.export();

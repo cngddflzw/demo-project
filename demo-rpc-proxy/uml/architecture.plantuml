@@ -1,0 +1,17 @@
+@startuml
+
+title 整体架构
+
+[CPService] as "C++ 服务"
+[Proxy] as "代理层"
+[Registry] as "注册中心"
+[JavaService] as "Java 服务"
+
+[CPService] -> [Proxy] : 配置
+[CPService] <- [Proxy] : 检查
+[CPService] <-> [Proxy] : 调用
+[Proxy] -up-> [Registry] : 服务注册/发现
+[Proxy] <-> [JavaService] : 调用
+[JavaService] -> [Registry] : 服务发现
+
+@enduml

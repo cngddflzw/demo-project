@@ -1,0 +1,6 @@
+{
+  "serviceName": "com.fenqile.test.PayService",
+  "method": "pay",
+  "paramTypeList": ["java.lang.String", "int"],
+  "paramList": ["price", 55]
+}

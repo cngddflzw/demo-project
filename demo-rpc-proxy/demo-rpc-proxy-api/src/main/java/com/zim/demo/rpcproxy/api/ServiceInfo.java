@@ -6,7 +6,7 @@ package com.zim.demo.rpcproxy.api;
  */
 public interface ServiceInfo {
 
-    String name();
+    String serviceName();
 
     String version();
 

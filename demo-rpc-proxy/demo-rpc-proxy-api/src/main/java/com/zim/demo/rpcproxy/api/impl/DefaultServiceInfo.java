@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class DefaultServiceInfo implements ServiceInfo {
 
     @NotNull
-    private String name;
+    private String serviceName;
 
     @NotNull
     private String version;
@@ -18,12 +18,12 @@ public class DefaultServiceInfo implements ServiceInfo {
     @NotNull
     private String group;
 
-    public String getName() {
-        return name;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public DefaultServiceInfo setName(String name) {
-        this.name = name;
+    public DefaultServiceInfo setServiceName(String serviceName) {
+        this.serviceName = serviceName;
         return this;
     }
 
@@ -46,8 +46,8 @@ public class DefaultServiceInfo implements ServiceInfo {
     }
 
     @Override
-    public String name() {
-        return name;
+    public String serviceName() {
+        return serviceName;
     }
 
     @Override
