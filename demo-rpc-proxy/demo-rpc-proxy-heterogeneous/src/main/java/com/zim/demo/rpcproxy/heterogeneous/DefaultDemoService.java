@@ -26,12 +26,12 @@ public class DefaultDemoService implements DemoService, InitializingBean, Dispos
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        invocationClient.register(createServiceInfo());
+        invocationClient.export(createServiceInfo());
     }
 
     @Override
     public void destroy() throws Exception {
-        invocationClient.unregister(createServiceInfo());
+        invocationClient.unexport(createServiceInfo());
     }
 
     private ServiceInfo createServiceInfo() {

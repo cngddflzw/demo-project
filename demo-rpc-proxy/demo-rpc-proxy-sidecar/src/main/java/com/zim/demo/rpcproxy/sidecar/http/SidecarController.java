@@ -1,7 +1,5 @@
 package com.zim.demo.rpcproxy.sidecar.http;
 
-import com.zim.demo.rpcproxy.api.Invocation;
-import com.zim.demo.rpcproxy.api.ServiceInfo;
 import com.zim.demo.rpcproxy.api.impl.DefaultInvocation;
 import com.zim.demo.rpcproxy.api.impl.DefaultServiceInfo;
 import com.zim.demo.rpcproxy.api.tools.InvocationUtils;
@@ -28,15 +26,15 @@ public class SidecarController {
     @Resource
     private SidecarService sidecarService;
 
-    @PostMapping("/register")
-    public Object register(@Valid @RequestBody DefaultServiceInfo serviceInfo) {
-        sidecarService.register(serviceInfo);
+    @PostMapping("/export")
+    public Object export(@Valid @RequestBody DefaultServiceInfo serviceInfo) {
+        sidecarService.export(serviceInfo);
         return InvocationUtils.createSuccessfulResult(null);
     }
 
-    @PostMapping("/unregister")
-    public Object unregister(@Valid @RequestBody DefaultServiceInfo serviceInfo) {
-        sidecarService.unregister(serviceInfo);
+    @PostMapping("/unexport")
+    public Object unexport(@Valid @RequestBody DefaultServiceInfo serviceInfo) {
+        sidecarService.unexport(serviceInfo);
         return InvocationUtils.createSuccessfulResult(null);
     }
 

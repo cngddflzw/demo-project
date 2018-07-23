@@ -4,7 +4,7 @@ package com.zim.demo.rpcproxy.sidecar.config;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public class RegisterConfig {
+public class ExportConfig {
 
     private Application application;
     private Registry registry;
@@ -14,7 +14,7 @@ public class RegisterConfig {
         return application;
     }
 
-    public RegisterConfig setApplication(Application application) {
+    public ExportConfig setApplication(Application application) {
         this.application = application;
         return this;
     }
@@ -23,7 +23,7 @@ public class RegisterConfig {
         return registry;
     }
 
-    public RegisterConfig setRegistry(Registry registry) {
+    public ExportConfig setRegistry(Registry registry) {
         this.registry = registry;
         return this;
     }
@@ -32,7 +32,7 @@ public class RegisterConfig {
         return protocol;
     }
 
-    public RegisterConfig setProtocol(Protocol protocol) {
+    public ExportConfig setProtocol(Protocol protocol) {
         this.protocol = protocol;
         return this;
     }

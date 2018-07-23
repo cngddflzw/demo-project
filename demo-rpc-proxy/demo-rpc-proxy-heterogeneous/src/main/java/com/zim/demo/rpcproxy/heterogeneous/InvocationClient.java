@@ -3,7 +3,7 @@ package com.zim.demo.rpcproxy.heterogeneous;
 import com.alibaba.fastjson.JSON;
 import com.zim.demo.rpcproxy.api.Invocation;
 import com.zim.demo.rpcproxy.api.InvocationService;
-import com.zim.demo.rpcproxy.api.RegistryService;
+import com.zim.demo.rpcproxy.api.ExportService;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
 import java.io.IOException;
 import okhttp3.MediaType;
@@ -20,12 +20,12 @@ import okhttp3.ResponseBody;
  * @author zhenwei.liu
  * @since 2018-07-20
  */
-public class InvocationClient implements RegistryService, InvocationService {
+public class InvocationClient implements ExportService, InvocationService {
 
     private static final String REFER_PATH = "/refer";
     private static final String INVOKE_PATH = "/invoke";
-    private static final String REGISTER_PATH = "/register";
-    private static final String UNREGISTER_PATH = "/unregister";
+    private static final String REGISTER_PATH = "/export";
+    private static final String UNREGISTER_PATH = "/unexport";
 
     private String requestUrl;
     private OkHttpClient httpClient;
@@ -46,12 +46,12 @@ public class InvocationClient implements RegistryService, InvocationService {
     }
 
     @Override
-    public void register(ServiceInfo serviceInfo) {
+    public void export(ServiceInfo serviceInfo) {
         request(REGISTER_PATH, serviceInfo);
     }
 
     @Override
-    public void unregister(ServiceInfo serviceInfo) {
+    public void unexport(ServiceInfo serviceInfo) {
         request(UNREGISTER_PATH, serviceInfo);
     }
 

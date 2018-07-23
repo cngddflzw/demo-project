@@ -32,7 +32,7 @@ public class InvocationClientTest {
         serviceInfo.setName(HETEROGENEOUS_SERVICE_NAME);
         serviceInfo.setVersion("1.0.0");
         serviceInfo.setGroup("arch");
-        invocationClient.register(serviceInfo);
+        invocationClient.export(serviceInfo);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class InvocationClientTest {
         serviceInfo.setName(HETEROGENEOUS_SERVICE_NAME);
         serviceInfo.setVersion("1.0.0");
         serviceInfo.setGroup("arch");
-        invocationClient.unregister(serviceInfo);
+        invocationClient.unexport(serviceInfo);
     }
 
     @Test

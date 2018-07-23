@@ -6,10 +6,10 @@ import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.ServiceConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.google.common.collect.Maps;
-import com.zim.demo.rpcproxy.api.RegistryService;
+import com.zim.demo.rpcproxy.api.ExportService;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
 import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
-import com.zim.demo.rpcproxy.sidecar.config.RegisterConfig;
+import com.zim.demo.rpcproxy.sidecar.config.ExportConfig;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,24 +20,24 @@ import org.slf4j.LoggerFactory;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public class DubboRegistryService implements RegistryService {
+public class DubboExportService implements ExportService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DubboRegistryService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DubboExportService.class);
 
     private final Map<String, ServiceConfig<GenericService>> serviceMap = Maps.newHashMap();
-    private final RegisterConfig registerConfig;
+    private final ExportConfig exportConfig;
     private final GenericService genericService;
     private final ServiceKeyGenerator serviceKeyGenerator;
 
-    public DubboRegistryService(RegisterConfig registerConfig, GenericService genericService,
+    public DubboExportService(ExportConfig exportConfig, GenericService genericService,
             ServiceKeyGenerator serviceKeyGenerator) {
-        this.registerConfig = registerConfig;
+        this.exportConfig = exportConfig;
         this.genericService = genericService;
         this.serviceKeyGenerator = serviceKeyGenerator;
     }
 
     @Override
-    public void register(ServiceInfo serviceInfo) {
+    public void export(ServiceInfo serviceInfo) {
         String serviceKey = serviceKeyGenerator.generate(serviceInfo);
 
         synchronized (serviceKey.intern()) {
@@ -60,7 +60,7 @@ public class DubboRegistryService implements RegistryService {
     }
 
     @Override
-    public void unregister(ServiceInfo serviceInfo) {
+    public void unexport(ServiceInfo serviceInfo) {
         String serviceKey = serviceKeyGenerator.generate(serviceInfo);
         synchronized (serviceKey.intern()) {
             ServiceConfig<GenericService> serviceConfig = serviceMap.get(serviceKey);
@@ -73,17 +73,17 @@ public class DubboRegistryService implements RegistryService {
 
     private ServiceConfig<GenericService> initServiceConfig() {
         ApplicationConfig application = new ApplicationConfig(
-                registerConfig.getApplication().getName());
-        application.setOrganization(registerConfig.getApplication().getOrganization());
+                exportConfig.getApplication().getName());
+        application.setOrganization(exportConfig.getApplication().getOrganization());
 
         ProtocolConfig protocol = new ProtocolConfig();
-        protocol.setName(registerConfig.getProtocol().getName());
-        protocol.setPort(registerConfig.getProtocol().getPort());
+        protocol.setName(exportConfig.getProtocol().getName());
+        protocol.setPort(exportConfig.getProtocol().getPort());
 
         RegistryConfig registry = new RegistryConfig();
-        registry.setProtocol(registerConfig.getRegistry().getProtocol());
-        registry.setAddress(registerConfig.getRegistry().getAddress());
-        registry.setPort(registerConfig.getRegistry().getPort());
+        registry.setProtocol(exportConfig.getRegistry().getProtocol());
+        registry.setAddress(exportConfig.getRegistry().getAddress());
+        registry.setPort(exportConfig.getRegistry().getPort());
 
         ServiceConfig<GenericService> serviceConfig = new ServiceConfig<>();
 

@@ -11,7 +11,7 @@ import com.zim.demo.rpcproxy.api.InvocationService;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
 import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
 import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
-import com.zim.demo.rpcproxy.sidecar.config.RegisterConfig;
+import com.zim.demo.rpcproxy.sidecar.config.ExportConfig;
 import com.zim.demo.rpcproxy.sidecar.exception.Heterogeneous2JavaException;
 import java.util.Map;
 
@@ -26,14 +26,14 @@ public class Heterogeneous2JavaService implements InvocationService {
     private static final String[] PARAM_TYPE_TOKEN = new String[0];
 
     private final Map<String, GenericService> serviceMap = Maps.newHashMap();
-    private final RegisterConfig registerConfig;
+    private final ExportConfig exportConfig;
     private final ServiceKeyGenerator serviceKeyGenerator;
     private final ResponseParser<Object, InvocationResult> responseParser;
 
-    public Heterogeneous2JavaService(RegisterConfig registerConfig,
+    public Heterogeneous2JavaService(ExportConfig exportConfig,
             ServiceKeyGenerator serviceKeyGenerator,
             ResponseParser<Object, InvocationResult> responseParser) {
-        this.registerConfig = registerConfig;
+        this.exportConfig = exportConfig;
         this.serviceKeyGenerator = serviceKeyGenerator;
         this.responseParser = responseParser;
     }
@@ -74,13 +74,13 @@ public class Heterogeneous2JavaService implements InvocationService {
 
     private ReferenceConfig<GenericService> initReferenceConfig() {
         ApplicationConfig application = new ApplicationConfig(
-                registerConfig.getApplication().getName());
-        application.setOrganization(registerConfig.getApplication().getOrganization());
+                exportConfig.getApplication().getName());
+        application.setOrganization(exportConfig.getApplication().getOrganization());
 
         RegistryConfig registry = new RegistryConfig();
-        registry.setProtocol(registerConfig.getRegistry().getProtocol());
-        registry.setAddress(registerConfig.getRegistry().getAddress());
-        registry.setPort(registerConfig.getRegistry().getPort());
+        registry.setProtocol(exportConfig.getRegistry().getProtocol());
+        registry.setAddress(exportConfig.getRegistry().getAddress());
+        registry.setPort(exportConfig.getRegistry().getPort());
 
         ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
 

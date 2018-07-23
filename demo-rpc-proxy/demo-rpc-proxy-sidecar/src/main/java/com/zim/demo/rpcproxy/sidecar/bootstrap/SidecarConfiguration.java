@@ -2,7 +2,7 @@ package com.zim.demo.rpcproxy.sidecar.bootstrap;
 
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.zim.demo.rpcproxy.api.InvocationResult;
-import com.zim.demo.rpcproxy.api.RegistryService;
+import com.zim.demo.rpcproxy.api.ExportService;
 import com.zim.demo.rpcproxy.common.HttpClientFactory;
 import com.zim.demo.rpcproxy.sidecar.common.DefaultServiceKeyGenerator;
 import com.zim.demo.rpcproxy.sidecar.common.Json2InvocationResultParser;
@@ -13,12 +13,12 @@ import com.zim.demo.rpcproxy.sidecar.common.Serializer;
 import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
 import com.zim.demo.rpcproxy.sidecar.config.Application;
 import com.zim.demo.rpcproxy.sidecar.config.Protocol;
-import com.zim.demo.rpcproxy.sidecar.config.RegisterConfig;
+import com.zim.demo.rpcproxy.sidecar.config.ExportConfig;
 import com.zim.demo.rpcproxy.sidecar.config.Registry;
 import com.zim.demo.rpcproxy.sidecar.core.DubboSidecarService;
 import com.zim.demo.rpcproxy.sidecar.core.SidecarService;
 import com.zim.demo.rpcproxy.sidecar.core.heterogeneous2java.Heterogeneous2JavaService;
-import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.DubboRegistryService;
+import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.DubboExportService;
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.HttpRequestSender;
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.Java2HeterogeneousService;
 import com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous.RequestSender;
@@ -98,9 +98,9 @@ public class SidecarConfiguration {
     }
 
     @Bean
-    public RegisterConfig registerConfig() {
+    public ExportConfig registerConfig() {
 
-        RegisterConfig registerConfig = new RegisterConfig();
+        ExportConfig exportConfig = new ExportConfig();
 
         Application application = new Application();
         application.setName(CONF.getProperty(APPLICATION_NAME));
@@ -115,11 +115,11 @@ public class SidecarConfiguration {
         registry.setAddress(CONF.getProperty(REGISTRY_ADDRESS));
         registry.setPort(Integer.valueOf(CONF.getProperty(REGISTRY_PORT)));
 
-        registerConfig.setApplication(application);
-        registerConfig.setProtocol(protocol);
-        registerConfig.setRegistry(registry);
+        exportConfig.setApplication(application);
+        exportConfig.setProtocol(protocol);
+        exportConfig.setRegistry(registry);
 
-        return registerConfig;
+        return exportConfig;
     }
 
     @Bean
@@ -128,26 +128,26 @@ public class SidecarConfiguration {
     }
 
     @Bean
-    public RegistryService registryService(
-            RegisterConfig registerConfig,
+    public ExportService registryService(
+            ExportConfig exportConfig,
             GenericService genericService,
             ServiceKeyGenerator serviceKeyGenerator) {
-        return new DubboRegistryService(registerConfig, genericService, serviceKeyGenerator);
+        return new DubboExportService(exportConfig, genericService, serviceKeyGenerator);
     }
 
     @Bean
     public Heterogeneous2JavaService heterogeneous2DubboService(
-            RegisterConfig registerConfig,
+            ExportConfig exportConfig,
             ResponseParser<Object, InvocationResult> objectToInvocationResultParser,
             ServiceKeyGenerator serviceKeyGenerator
     ) {
-        return new Heterogeneous2JavaService(registerConfig, serviceKeyGenerator,
+        return new Heterogeneous2JavaService(exportConfig, serviceKeyGenerator,
                 objectToInvocationResultParser);
     }
 
     @Bean
-    public SidecarService sidecarService(RegistryService registryService,
+    public SidecarService sidecarService(ExportService exportService,
             Heterogeneous2JavaService heterogeneous2JavaService) {
-        return new DubboSidecarService(registryService, heterogeneous2JavaService);
+        return new DubboSidecarService(exportService, heterogeneous2JavaService);
     }
 }
