@@ -7,7 +7,7 @@ import com.alibaba.dubbo.rpc.service.GenericService;
 import com.google.common.collect.Maps;
 import com.zim.demo.rpcproxy.api.Invocation;
 import com.zim.demo.rpcproxy.api.InvocationResult;
-import com.zim.demo.rpcproxy.api.InvocationService;
+import com.zim.demo.rpcproxy.api.ReferService;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
 import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
 import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public class Heterogeneous2JavaService implements InvocationService {
+public class Heterogeneous2JavaService implements ReferService {
 
     private static final String[] PARAM_TYPE_TOKEN = new String[0];
 

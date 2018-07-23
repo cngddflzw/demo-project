@@ -2,7 +2,7 @@ package com.zim.demo.rpcproxy.heterogeneous;
 
 import com.alibaba.fastjson.JSON;
 import com.zim.demo.rpcproxy.api.Invocation;
-import com.zim.demo.rpcproxy.api.InvocationService;
+import com.zim.demo.rpcproxy.api.ReferService;
 import com.zim.demo.rpcproxy.api.ExportService;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import okhttp3.ResponseBody;
  * @author zhenwei.liu
  * @since 2018-07-20
  */
-public class InvocationClient implements ExportService, InvocationService {
+public class InvocationClient implements ExportService, ReferService {
 
     private static final String REFER_PATH = "/refer";
     private static final String INVOKE_PATH = "/invoke";
