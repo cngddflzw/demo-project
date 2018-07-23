@@ -1,40 +1,42 @@
-package com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous;
+package com.zim.demo.rpcproxy.sidecar.core;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
+import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.ServiceConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.google.common.collect.Maps;
-import com.zim.demo.rpcproxy.api.ExportService;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
+import com.zim.demo.rpcproxy.api.ServiceManager;
 import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
 import com.zim.demo.rpcproxy.sidecar.config.ExportConfig;
 import java.util.Map;
+import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * 用于注册和下线 异构语言 服务, 注册以后即可对其他 Java 应用暴露该异构语言服务, 其他 Java 应用则可以调用该服务
- *
  * @author zhenwei.liu
- * @since 2018-07-19
+ * @since 2018-07-23
  */
-public class DubboExportService implements ExportService {
+@Service
+public class DubboServiceManager implements ServiceManager<GenericService> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DubboExportService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DubboServiceManager.class);
 
     private final Map<String, ServiceConfig<GenericService>> serviceMap = Maps.newHashMap();
-    private final ExportConfig exportConfig;
-    private final GenericService genericService;
-    private final ServiceKeyGenerator serviceKeyGenerator;
+    private final Map<String, GenericService> referenceMap = Maps.newHashMap();
 
-    public DubboExportService(ExportConfig exportConfig, GenericService genericService,
-            ServiceKeyGenerator serviceKeyGenerator) {
-        this.exportConfig = exportConfig;
-        this.genericService = genericService;
-        this.serviceKeyGenerator = serviceKeyGenerator;
-    }
+    @Resource
+    private ExportConfig exportConfig;
+
+    @Resource
+    private GenericService genericService;
+
+    @Resource
+    private ServiceKeyGenerator serviceKeyGenerator;
 
     @Override
     public void export(ServiceInfo serviceInfo) {
@@ -94,5 +96,47 @@ public class DubboExportService implements ExportService {
         serviceConfig.setRef(genericService);
 
         return serviceConfig;
+    }
+
+    @Override
+    public GenericService refer(ServiceInfo serviceInfo) {
+
+        String serviceKey = serviceKeyGenerator.generate(serviceInfo);
+
+        synchronized (serviceKey.intern()) {
+            GenericService genericService = referenceMap.get(serviceKey);
+            if (genericService == null) {
+                String serviceName = serviceInfo.serviceName();
+
+                ReferenceConfig<GenericService> referenceConfig = initReferenceConfig();
+                referenceConfig.setInterface(serviceName);
+                referenceConfig.setVersion(serviceInfo.version());
+                referenceConfig.setGroup(serviceInfo.group());
+                genericService = referenceConfig.get();
+                referenceMap.put(serviceKey, genericService);
+
+                LOGGER.info("service {} refer successfully", serviceKey);
+            }
+            return genericService;
+        }
+    }
+
+    private ReferenceConfig<GenericService> initReferenceConfig() {
+        ApplicationConfig application = new ApplicationConfig(
+                exportConfig.getApplication().getName());
+        application.setOrganization(exportConfig.getApplication().getOrganization());
+
+        RegistryConfig registry = new RegistryConfig();
+        registry.setProtocol(exportConfig.getRegistry().getProtocol());
+        registry.setAddress(exportConfig.getRegistry().getAddress());
+        registry.setPort(exportConfig.getRegistry().getPort());
+
+        ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
+
+        referenceConfig.setApplication(application);
+        referenceConfig.setRegistry(registry);
+        referenceConfig.setGeneric(true);
+
+        return referenceConfig;
     }
 }

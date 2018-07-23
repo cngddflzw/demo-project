@@ -1,9 +1,7 @@
 package com.zim.demo.rpcproxy.sidecar.http;
 
+import com.zim.demo.rpcproxy.api.InvocationService;
 import com.zim.demo.rpcproxy.api.impl.DefaultInvocation;
-import com.zim.demo.rpcproxy.api.impl.DefaultServiceInfo;
-import com.zim.demo.rpcproxy.api.tools.InvocationUtils;
-import com.zim.demo.rpcproxy.sidecar.core.SidecarService;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,28 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class SidecarController {
 
     @Resource
-    private SidecarService sidecarService;
-
-    @PostMapping("/export")
-    public Object export(@Valid @RequestBody DefaultServiceInfo serviceInfo) {
-        sidecarService.export(serviceInfo);
-        return InvocationUtils.createSuccessfulResult(null);
-    }
-
-    @PostMapping("/unexport")
-    public Object unexport(@Valid @RequestBody DefaultServiceInfo serviceInfo) {
-        sidecarService.unexport(serviceInfo);
-        return InvocationUtils.createSuccessfulResult(null);
-    }
-
-    @PostMapping("/refer")
-    public Object refer(@Valid @RequestBody DefaultServiceInfo serviceInfo) {
-        sidecarService.refer(serviceInfo);
-        return InvocationUtils.createSuccessfulResult(null);
-    }
+    private InvocationService invocationService;
 
     @PostMapping("/invoke")
     public Object invoke(@Valid @RequestBody DefaultInvocation invocation) {
-        return sidecarService.invoke(invocation);
+        return invocationService.invoke(invocation);
     }
 }

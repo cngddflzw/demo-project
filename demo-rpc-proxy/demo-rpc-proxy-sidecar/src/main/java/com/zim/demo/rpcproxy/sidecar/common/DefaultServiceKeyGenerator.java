@@ -2,14 +2,14 @@ package com.zim.demo.rpcproxy.sidecar.common;
 
 import com.zim.demo.rpcproxy.api.Invocation;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
+import org.springframework.stereotype.Component;
 
 /**
  * @author zhenwei.liu
  * @since 2018-07-20
  */
+@Component
 public class DefaultServiceKeyGenerator implements ServiceKeyGenerator {
-
-    public static final ServiceKeyGenerator INSTANCE = new DefaultServiceKeyGenerator();
 
     private static final String SEP = ":";
 

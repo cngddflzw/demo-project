@@ -8,6 +8,8 @@ import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.api.impl.DefaultInvocation;
 import com.zim.demo.rpcproxy.sidecar.common.Serializer;
 import com.zim.demo.rpcproxy.sidecar.exception.Java2HeterogeneousException;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  * 用于 Java 服务反向调用异构语言服务的泛化调用 这里的最终返回结果类型是 Map<String, Object> (符合 dubbo 泛化调用规范)
@@ -15,17 +17,14 @@ import com.zim.demo.rpcproxy.sidecar.exception.Java2HeterogeneousException;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
+@Service
 public class Java2HeterogeneousService implements GenericService {
 
+    @Resource(name = "jsonSerializer")
     private Serializer<String> serializer;
-    private RequestSender<InvocationResult> requestSender;
 
-    public Java2HeterogeneousService(
-            Serializer<String> serializer,
-            RequestSender<InvocationResult> requestSender) {
-        this.serializer = serializer;
-        this.requestSender = requestSender;
-    }
+    @Resource
+    private RequestSender<InvocationResult> requestSender;
 
     @Override
     public Object $invoke(String method, String[] parameterTypes, Object[] args)

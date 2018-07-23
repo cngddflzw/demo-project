@@ -2,9 +2,6 @@ package com.zim.demo.rpcproxy.heterogeneous;
 
 import com.alibaba.fastjson.JSON;
 import com.zim.demo.rpcproxy.api.Invocation;
-import com.zim.demo.rpcproxy.api.ReferService;
-import com.zim.demo.rpcproxy.api.ExportService;
-import com.zim.demo.rpcproxy.api.ServiceInfo;
 import java.io.IOException;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -20,12 +17,9 @@ import okhttp3.ResponseBody;
  * @author zhenwei.liu
  * @since 2018-07-20
  */
-public class InvocationClient implements ExportService, ReferService {
+public class InvocationClient {
 
-    private static final String REFER_PATH = "/refer";
     private static final String INVOKE_PATH = "/invoke";
-    private static final String REGISTER_PATH = "/export";
-    private static final String UNREGISTER_PATH = "/unexport";
 
     private String requestUrl;
     private OkHttpClient httpClient;
@@ -35,24 +29,8 @@ public class InvocationClient implements ExportService, ReferService {
         this.httpClient = httpClient;
     }
 
-    @Override
-    public void refer(ServiceInfo serviceInfo) {
-        request(REFER_PATH, serviceInfo);
-    }
-
-    @Override
     public Object invoke(Invocation invocation) {
         return request(INVOKE_PATH, invocation);
-    }
-
-    @Override
-    public void export(ServiceInfo serviceInfo) {
-        request(REGISTER_PATH, serviceInfo);
-    }
-
-    @Override
-    public void unexport(ServiceInfo serviceInfo) {
-        request(UNREGISTER_PATH, serviceInfo);
     }
 
     private Object request(String path, Object data) {

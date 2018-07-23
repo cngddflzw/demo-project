@@ -1,0 +1,7 @@
+[
+  {
+    "serviceName": "com.zim.demo.rpcproxy.heterogeneous.DemoService",
+    "group": "arch",
+    "version": "1.0.0"
+  }
+]

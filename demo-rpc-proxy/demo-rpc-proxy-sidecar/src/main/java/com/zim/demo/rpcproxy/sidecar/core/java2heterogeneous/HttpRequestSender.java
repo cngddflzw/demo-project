@@ -4,6 +4,7 @@ import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
 import com.zim.demo.rpcproxy.sidecar.exception.Java2HeterogeneousException;
 import java.io.IOException;
+import javax.annotation.Resource;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,23 +12,24 @@ import okhttp3.Request.Builder;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
  * @author zhenwei.liu
  * @since 2018-07-19
  */
+@Service
 public class HttpRequestSender implements RequestSender<InvocationResult> {
 
-    private final OkHttpClient httpClient;
-    private final String requestUrl;
-    private ResponseParser<String, InvocationResult> responseParser;
+    @Resource
+    private OkHttpClient httpClient;
 
-    public HttpRequestSender(OkHttpClient httpClient, String requestUrl,
-            ResponseParser<String, InvocationResult> responseParser) {
-        this.httpClient = httpClient;
-        this.requestUrl = requestUrl;
-        this.responseParser = responseParser;
-    }
+    @Value("${heterogeneous.request.url}")
+    private String requestUrl;
+
+    @Resource(name = "json2InvocationResultParser")
+    private ResponseParser<String, InvocationResult> responseParser;
 
     @Override
     public InvocationResult send(Object postData) {

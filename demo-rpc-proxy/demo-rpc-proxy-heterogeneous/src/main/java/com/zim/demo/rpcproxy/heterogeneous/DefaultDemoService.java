@@ -3,8 +3,6 @@ package com.zim.demo.rpcproxy.heterogeneous;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
 import com.zim.demo.rpcproxy.api.impl.DefaultServiceInfo;
 import javax.annotation.Resource;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @since 2018-07-20
  */
 @Service
-public class DefaultDemoService implements DemoService, InitializingBean, DisposableBean {
+public class DefaultDemoService implements DemoService {
 
     @Resource
     private InvocationClient invocationClient;
@@ -22,16 +20,6 @@ public class DefaultDemoService implements DemoService, InitializingBean, Dispos
     @Override
     public String sayHello(String name) {
         return "hello " + name;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        invocationClient.export(createServiceInfo());
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        invocationClient.unexport(createServiceInfo());
     }
 
     private ServiceInfo createServiceInfo() {
