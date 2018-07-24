@@ -1,0 +1,41 @@
+@startuml
+
+title provider 调用链路
+
+== Netty Handler 层 ==
+
+RequestDecoder -> ChannelEventRunnable : 1.
+note right of RequestDecoder
+    Netty Handler 负责
+    decode bytes 为
+    Request 对象
+end note
+
+== 异步任务 DubboHandler 层 ==
+
+ChannelEventRunnable -> FilterInvokers : 2.
+note right ChannelEventRunnable
+    异步任务层用于执行 Dubbo.ChannelHandler 的各种事件
+    包括请求的 Request 事件, Channel 连接和断开连接等
+    具体的实现使用了 Dubbo 的 ChannelHandler 接口
+    这一层相当于将网络框架(Netty)交接到 Dubbo 自己的代码
+end note
+
+== Invoker 调用层 ==
+
+FilterInvokers -> DubboInvoker : 3.
+note right FilterInvokers
+    这一层是 Dubbo 的 FilterInvoker 调用链
+    最终会到达 DubboInvoker, DubboInvoker
+    负责使用动态代理 Wrapper 调用实际的 Service
+end note
+
+== Response 响应层 ==
+
+ChannelEventRunnable -> RequestDecoder : 4.
+
+note left ChannelEventRunnable
+    返回最终的 Response
+end note
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+
+title 服务暴露时序图
+
+== Invoker 生成 ==
+
+ServiceConfig -> ProxyFactory : 1. createInvoker
+note left of ProxyFactory
+    ProxyFactory 主要负责包装 ref
+    利用 Javassist 生成可动态根据方法名
+    和参数调用方法的 Wrapper Invoker
+end note
+
+ProxyFactory -> Invoker : 2. <init>
+
+== Exporter 生成 ==
+
+ServiceConfig -> RegistryProtocol : 3. export()
+note left of RegistryProtocol
+    Protocol 是一个 ExtensionLoader
+    会根据 URL 中的 protocol 参数来进行动态
+    生成 Protocol 实现, 大概的流程是
+    RegistryProtocol -> DubboProtocol -> Registry
+
+    其最终目的实际上有两个
+        1. DubboProtocol 负责生成 DubboExporter
+           并部署 RPC 网络服务, 如 NettyServer
+        2. Registry 将服务注册到注册中心
+end note
+
+RegistryProtocol -> DubboProtocol : 4. createServer()
+note left of DubboProtocol
+    DubboProtocol 负责包装 Invoker 为 DubboExporter
+    此外还负责部署 rpc 服务器, 例如 NettyServer
+end note
+
+RegistryProtocol -> Registry : 5. register()
+note left of Registry
+    Registry 负责注册服务, 例如 ZK, Consul 等
+end note
+
+@enduml

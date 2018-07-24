@@ -17,6 +17,7 @@
         <module>demo-dubbo-api</module>
         <module>demo-dubbo-rest</module>
         <module>demo-dubbo-generic</module>
+        <module>demo-dubbo-notes</module>
     </modules>
 
     <dependencies>
