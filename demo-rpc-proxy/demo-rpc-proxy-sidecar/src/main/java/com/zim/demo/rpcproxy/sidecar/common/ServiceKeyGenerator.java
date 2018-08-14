@@ -9,6 +9,8 @@ import com.zim.demo.rpcproxy.api.ServiceInfo;
  */
 public interface ServiceKeyGenerator {
 
+    String generate(String serviceName, String group, String version);
+
     String generate(ServiceInfo serviceInfo);
 
     String generate(Invocation invocation);

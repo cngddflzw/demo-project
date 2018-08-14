@@ -1,12 +1,10 @@
-package com.zim.demo.rpcproxy.sidecar.core.heterogeneous2java;
+package com.zim.demo.rpcproxy.sidecar.core;
 
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.zim.demo.rpcproxy.api.Invocation;
-import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.api.InvocationService;
 import com.zim.demo.rpcproxy.api.ServiceManager;
 import com.zim.demo.rpcproxy.api.impl.DefaultServiceInfo;
-import com.zim.demo.rpcproxy.sidecar.common.ResponseParser;
 import com.zim.demo.rpcproxy.sidecar.common.ServiceKeyGenerator;
 import com.zim.demo.rpcproxy.sidecar.exception.Heterogeneous2JavaException;
 import javax.annotation.Resource;
@@ -29,9 +27,6 @@ public class Heterogeneous2JavaService implements InvocationService {
     @Resource
     private ServiceKeyGenerator serviceKeyGenerator;
 
-    @Resource(name = "objectToInvocationResultParser")
-    private ResponseParser<Object, InvocationResult> responseParser;
-
     @Override
     @SuppressWarnings("unchecked")
     public Object invoke(Invocation invocation) {
@@ -49,7 +44,7 @@ public class Heterogeneous2JavaService implements InvocationService {
         Object result = service
                 .$invoke(methodName, invocation.paramTypes().toArray(PARAM_TYPE_TOKEN),
                         invocation.paramVals().toArray());
-        return responseParser.parse(result);
+        return result;
     }
 
 }

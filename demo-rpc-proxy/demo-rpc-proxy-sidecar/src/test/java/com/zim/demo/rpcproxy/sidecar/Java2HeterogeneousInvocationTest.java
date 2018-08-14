@@ -1,9 +1,12 @@
 package com.zim.demo.rpcproxy.sidecar;
 
+import static junit.framework.TestCase.assertEquals;
+
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
+import java.io.Serializable;
 import org.junit.Test;
 
 /**
@@ -11,6 +14,30 @@ import org.junit.Test;
  * @since 2018-07-20
  */
 public class Java2HeterogeneousInvocationTest {
+
+    private static class Param implements Serializable {
+
+        private String name;
+        private int code;
+
+        public String getName() {
+            return name;
+        }
+
+        public Param setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public Param setCode(int code) {
+            this.code = code;
+            return this;
+        }
+    }
 
     @Test
     public void testJava2HeterogeneousInvocation() throws Exception {
@@ -25,15 +52,22 @@ public class Java2HeterogeneousInvocationTest {
         ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
         referenceConfig.setApplication(applicationConfig);
         referenceConfig.setRegistry(registryConfig);
-        referenceConfig.setInterface("com.zim.demo.rpcproxy.heterogeneous.DemoService");
+        referenceConfig.setInterface("DemoService");
         referenceConfig.setGroup("arch");
         referenceConfig.setVersion("1.0.0");
         referenceConfig.setGeneric(true);
 
         GenericService genericService = referenceConfig.get();
-        Object result = genericService
-                .$invoke("sayHello", new String[]{"java.lang.String"}, new Object[]{"zim"});
+        String paramType = "com.zim.demo.rpcproxy.sidecar.Java2HeterogeneousInvocationTest.Param";
 
-        System.out.println(result);
+        Param param1 = new Param().setName("Zim").setCode(1);
+        Object result1 = genericService
+                .$invoke("Test", new String[]{paramType}, new Object[]{param1});
+        System.out.println("Result1: " + result1);
+
+        Param param2 = new Param().setName("Zack").setCode(2);
+        Object result2 = genericService
+                .$invoke("Test2", new String[]{paramType, paramType}, new Object[]{param1, param2});
+        System.out.println("Result2: " + result2);
     }
 }

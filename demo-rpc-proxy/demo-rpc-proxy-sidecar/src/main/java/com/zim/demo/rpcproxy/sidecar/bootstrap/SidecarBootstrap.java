@@ -1,7 +1,10 @@
 package com.zim.demo.rpcproxy.sidecar.bootstrap;
 
-import org.springframework.boot.SpringApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -12,7 +15,13 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.zim.demo.rpcproxy.sidecar"})
 public class SidecarBootstrap {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SidecarBootstrap.class, args);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SidecarBootstrap.class);
+
+    public static void main(String[] args) throws Exception {
+        new SpringApplicationBuilder(SidecarBootstrap.class)
+                .web(WebApplicationType.NONE)
+                .run(args);
+        LOGGER.info("Sidecar start up ... ");
+        Thread.currentThread().join();
     }
 }

@@ -1,4 +1,4 @@
-package com.zim.demo.rpcproxy.sidecar.http;
+package com.zim.demo.rpcproxy.sidecar.core.http;
 
 import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.api.tools.InvocationUtils;

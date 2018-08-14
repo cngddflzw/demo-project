@@ -1,6 +1,8 @@
 package com.zim.demo.rpcproxy.api.impl;
 
+import com.zim.demo.rpcproxy.api.MethodInfo;
 import com.zim.demo.rpcproxy.api.ServiceInfo;
+import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -17,6 +19,8 @@ public class DefaultServiceInfo implements ServiceInfo {
 
     @NotNull
     private String group;
+
+    private Map<String, DefaultMethodInfo> methodInfoMap;
 
     public String getServiceName() {
         return serviceName;
@@ -45,6 +49,16 @@ public class DefaultServiceInfo implements ServiceInfo {
         return this;
     }
 
+    public Map<String, DefaultMethodInfo> getMethodInfoMap() {
+        return methodInfoMap;
+    }
+
+    public DefaultServiceInfo setMethodInfoMap(
+            Map<String, DefaultMethodInfo> methodInfoMap) {
+        this.methodInfoMap = methodInfoMap;
+        return this;
+    }
+
     @Override
     public String serviceName() {
         return serviceName;
@@ -58,6 +72,11 @@ public class DefaultServiceInfo implements ServiceInfo {
     @Override
     public String group() {
         return group;
+    }
+
+    @Override
+    public Map<String, DefaultMethodInfo> methodInfoMap() {
+        return methodInfoMap;
     }
 
 

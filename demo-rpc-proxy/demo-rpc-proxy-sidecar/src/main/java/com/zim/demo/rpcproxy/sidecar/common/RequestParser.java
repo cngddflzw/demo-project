@@ -4,7 +4,7 @@ package com.zim.demo.rpcproxy.sidecar.common;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public interface Serializer<Output> {
+public interface RequestParser<Input, Output> {
 
-    Output serialize(Object o);
+    Output parse(Input o);
 }

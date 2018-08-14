@@ -15,7 +15,7 @@
     <modules>
         <module>demo-rpc-proxy-api</module>
         <module>demo-rpc-proxy-sidecar</module>
-        <module>demo-rpc-proxy-heterogeneous</module>
+        <!--<module>demo-rpc-proxy-heterogeneous</module>-->
         <module>demo-rpc-proxy-common</module>
         <module>demo-rpc-proxy-java</module>
     </modules>
@@ -41,9 +41,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.verison}</version>
             </dependency>
 
             <dependency>
@@ -68,6 +68,13 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
                 <version>${curator.verison}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.apache.thrift</groupId>
+                <artifactId>libthrift</artifactId>
+                <version>${thrift.verison}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

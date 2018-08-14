@@ -27,4 +27,13 @@ public interface ServiceManager<Service> {
      * @return 服务引用
      */
     Service refer(ServiceInfo serviceInfo);
+
+
+    /**
+     * 获取 reference 信息
+     *
+     * @param key key
+     * @return 引用的 reference 信息
+     */
+    ServiceInfo getReferenceInfo(String key);
 }

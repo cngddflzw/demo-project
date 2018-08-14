@@ -1,7 +1,26 @@
 # TODO List
 
-1. HeterogeneousService 健康检查机制, 当 HeterogeneousService 存在服务问题时, Proxy 应该自动下线 HeterogeneousService
-2. HeterogeneousService 应用重新上线后, 自动刷新所有 Reference 引用配置
-3. Proxy 重新上线以后, 需要重新注册所有服务 (可以用配置文件的方式完成)
-4. Proxy 与 HeterogeneousService 之间的服务调用配置 (如超时等) 如何与 Dubbo RPC 的配置一致
-5. Proxy 的资源管理如何控制好, 理论上讲不应该对业务服务器造成压力 
+1. 处理 proxy 与 c++ 之间 thrift 断线重连问题
+2. 处理 dubbo 超时应用到 thrift 超时中的问题
+3. 理清楚 thrift server 的线程池配置, 使用 cache 的还是 fix 的, 用 fix 的话应该配置多少线程
+
+# 测试项目
+
+# java 调用 c++ 测试
+
+需配合 c++ demo 项目
+
+1. 启动 c++ demo server (tricycle_demo_server)
+2. 配置 sidecar 项目下的 service_config.json (这里写 c++ 暴露的服务)
+2. 启动 sidecar (SidecarBootstrap)
+
+
+1. 运行 Java2HeterogeneousInvocationTest
+
+# c++ 调用 java 测试
+
+1. 启动待测试的 java service (JavaServiceSpringBootDemo)
+2. 配置 sidecar 项目下的 reference_config.json (这里配置 c++ 引用的服务)
+3. 启动 sidecar (SidecarBootstrap)
+4. 运行 c++ demo client (tricycle_demo_client)
+ 

@@ -28,6 +28,7 @@ public class DubboServiceManager implements ServiceManager<GenericService> {
 
     private final Map<String, ServiceConfig<GenericService>> serviceMap = Maps.newHashMap();
     private final Map<String, GenericService> referenceMap = Maps.newHashMap();
+    private final Map<String, ServiceInfo> referenceInfoMap = Maps.newHashMap();
 
     @Resource
     private ExportConfig exportConfig;
@@ -57,7 +58,7 @@ public class DubboServiceManager implements ServiceManager<GenericService> {
 
             serviceMap.put(serviceKey, serviceConfig);
 
-            LOGGER.info("service {} registered successfully", serviceKey);
+            LOGGER.info("service {} is registered successfully", serviceKey);
         }
     }
 
@@ -114,11 +115,16 @@ public class DubboServiceManager implements ServiceManager<GenericService> {
                 referenceConfig.setGroup(serviceInfo.group());
                 genericService = referenceConfig.get();
                 referenceMap.put(serviceKey, genericService);
-
-                LOGGER.info("service {} refer successfully", serviceKey);
+                referenceInfoMap.put(serviceKey, serviceInfo);
+                LOGGER.info("service {} is referred successfully", serviceKey);
             }
             return genericService;
         }
+    }
+
+    @Override
+    public ServiceInfo getReferenceInfo(String key) {
+        return referenceInfoMap.get(key);
     }
 
     private ReferenceConfig<GenericService> initReferenceConfig() {

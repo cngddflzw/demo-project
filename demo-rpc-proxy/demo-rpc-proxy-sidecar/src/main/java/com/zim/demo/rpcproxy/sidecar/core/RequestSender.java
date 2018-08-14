@@ -1,4 +1,4 @@
-package com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous;
+package com.zim.demo.rpcproxy.sidecar.core;
 
 /**
  * <pre>
@@ -9,7 +9,7 @@ package com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous;
  * @author zhenwei.liu
  * @since 2018-07-19
  */
-public interface RequestSender<Output> {
+public interface RequestSender<Input, Output> {
 
-    Output send(Object data);
+    Output send(Input data);
 }

@@ -1,10 +1,11 @@
 package com.zim.demo.rpcproxy.sidecar.core;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.google.gson.reflect.TypeToken;
 import com.zim.demo.rpcproxy.api.impl.DefaultServiceInfo;
+import com.zim.demo.rpcproxy.common.GsonHolder;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 import org.apache.curator.shaded.com.google.common.base.Charsets;
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class LocalFileServiceInitializer extends ServiceInitializer {
 
-    private static final TypeReference<List<DefaultServiceInfo>> TR = new TypeReference<List<DefaultServiceInfo>>() {
-    };
+    private static final Type TR = new TypeToken<List<DefaultServiceInfo>>() {
+    }.getType();
 
     @Value("${service.config.file.path}")
     private String serviceConfigPath;
@@ -42,7 +43,7 @@ public class LocalFileServiceInitializer extends ServiceInitializer {
 
     private List<DefaultServiceInfo> listServiceInfo(String file) {
         try {
-            return JSON.parseObject(Files.toString(new File(Objects.requireNonNull(
+            return GsonHolder.gson().fromJson(Files.toString(new File(Objects.requireNonNull(
                     getClass().getClassLoader().getResource(file)).getFile()),
                     Charsets.UTF_8), TR);
         } catch (IOException e) {

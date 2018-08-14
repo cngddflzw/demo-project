@@ -1,5 +1,7 @@
 package com.zim.demo.rpcproxy.java;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -11,9 +13,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class JavaServiceSpringBootDemo {
 
-    public static void main(String[] args) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaServiceSpringBootDemo.class);
+
+    public static void main(String[] args) throws Exception {
         new SpringApplicationBuilder(JavaServiceSpringBootDemo.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
+
+        LOGGER.info("Java service start up ... ");
+        Thread.currentThread().join();
     }
 }

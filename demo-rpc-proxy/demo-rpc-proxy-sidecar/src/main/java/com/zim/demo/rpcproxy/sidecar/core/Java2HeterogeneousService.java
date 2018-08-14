@@ -1,12 +1,12 @@
-package com.zim.demo.rpcproxy.sidecar.core.java2heterogeneous;
+package com.zim.demo.rpcproxy.sidecar.core;
 
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.service.GenericException;
 import com.alibaba.dubbo.rpc.service.GenericService;
+import com.zim.demo.rpcproxy.api.Invocation;
 import com.zim.demo.rpcproxy.api.InvocationResult;
 import com.zim.demo.rpcproxy.api.impl.DefaultInvocation;
-import com.zim.demo.rpcproxy.sidecar.common.Serializer;
 import com.zim.demo.rpcproxy.sidecar.exception.Java2HeterogeneousException;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class Java2HeterogeneousService implements GenericService {
 
-    @Resource(name = "jsonSerializer")
-    private Serializer<String> serializer;
-
     @Resource
-    private RequestSender<InvocationResult> requestSender;
+    private RequestSender<Invocation, InvocationResult> requestSender;
 
     @Override
     public Object $invoke(String method, String[] parameterTypes, Object[] args)
@@ -45,8 +42,7 @@ public class Java2HeterogeneousService implements GenericService {
             invocation.addParam(parameterTypes[i], args[i]);
         }
 
-        String request = serializer.serialize(invocation);
-        InvocationResult result = requestSender.send(request);
+        InvocationResult result = requestSender.send(invocation);
 
         if (result.code() == 0) {
             // 按照泛化调用协议, 这里的 json 串应该转为 map

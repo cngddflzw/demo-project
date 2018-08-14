@@ -1,0 +1,32 @@
+@startuml
+
+title 调用结构
+
+package "Nginx Servers" {
+[Nginx1]
+[Nginx2]
+[Nginx3]
+}
+
+package "Application Servers" {
+    node "AppServer1" {
+        [tomcat1]
+    }
+    node "AppServer2" {
+        [tomcat2]
+    }
+    node "AppServer3" {
+        [tomcat3]
+    }
+}
+
+
+[Nginx1] -down- [Nginx2]
+[Nginx2] -down- [Nginx3]
+
+[tomcat1] -down- [tomcat2]
+[tomcat2] -down- [tomcat3]
+
+[Nginx2] -right-> [tomcat2] : healthcheck
+
+@enduml

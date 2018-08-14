@@ -19,7 +19,7 @@ public abstract class ServiceInitializer<T extends ServiceInfo> implements Initi
     private ServiceManager<GenericService> serviceManager;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         initServices();
         initReferences();
     }

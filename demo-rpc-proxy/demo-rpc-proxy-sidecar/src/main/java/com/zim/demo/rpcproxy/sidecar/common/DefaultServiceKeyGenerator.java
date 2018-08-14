@@ -14,10 +14,15 @@ public class DefaultServiceKeyGenerator implements ServiceKeyGenerator {
     private static final String SEP = ":";
 
     @Override
+    public String generate(String serviceName, String group, String version) {
+        return serviceName + SEP +
+                group + SEP +
+                version;
+    }
+
+    @Override
     public String generate(ServiceInfo serviceInfo) {
-        return serviceInfo.serviceName() + SEP +
-                serviceInfo.group() + SEP +
-                serviceInfo.version();
+        return generate(serviceInfo.serviceName(), serviceInfo.group(), serviceInfo.version());
     }
 
     @Override

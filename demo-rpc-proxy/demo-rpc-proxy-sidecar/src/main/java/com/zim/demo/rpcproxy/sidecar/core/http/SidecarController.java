@@ -1,4 +1,4 @@
-package com.zim.demo.rpcproxy.sidecar.http;
+package com.zim.demo.rpcproxy.sidecar.core.http;
 
 import com.zim.demo.rpcproxy.api.InvocationService;
 import com.zim.demo.rpcproxy.api.impl.DefaultInvocation;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 接收异构语言的 http 调用请求
+ *
  * @author zhenwei.liu
  * @since 2018-07-19
  */
