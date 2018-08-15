@@ -1,7 +1,9 @@
 package com.zim.demo.rpcproxy.java.client;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
  * @author zhenwei.liu
@@ -11,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GenericConsumerSpringBootDemo {
 
     public static void main(String[] args) {
-        SpringApplication.run(GenericConsumerSpringBootDemo.class, args);
+        new SpringApplicationBuilder(GenericConsumerSpringBootDemo.class)
+                .web(WebApplicationType.NONE)
+                .run(args);
     }
 }

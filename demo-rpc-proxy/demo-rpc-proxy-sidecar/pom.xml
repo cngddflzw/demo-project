@@ -64,6 +64,7 @@
     </dependencies>
 
     <build>
+        <finalName>rpc-proxy</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

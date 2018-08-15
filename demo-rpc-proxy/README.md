@@ -20,23 +20,18 @@ Java 部分:
 
 # 测试项目
 
-## java 调用 c++ 测试
+## java / c++ 相互调用测试
 
-调用流程: java-client => rpc-proxy => tricycle_demo_server
+* java => c++ 调用流程: java-client => rpc-proxy => tricycle_demo_server
+* c++ => java 调用流程: tricycle_demo_client => rpc-proxy => java-service
 
 启动流程
 
 1. 启动 c++ demo server (tricycle_demo_server)
 2. 配置 rpc-proxy 项目下的 service_config.json (这里写 c++ 暴露的服务)
-3. 运行 rpc-proxy (SidecarBootstrap)
-4. 运行 java-client (GenericConsumerSpringBootDemo)
-
-## c++ 调用 java 测试
-
-调用流程: tricycle_demo_client => rpc-proxy => java-service
-
-1. 启动 java-service (JavaServiceSpringBootDemo)
-2. 配置 rpc-proxy 项目下的 reference_config.json (这里配置 c++ 引用的服务)
-3. 启动 rpc-proxy (SidecarBootstrap)
-4. 运行 c++ demo client (tricycle_demo_client)
+3. 配置 rpc-proxy 项目下的 reference_config.json (这里配置 c++ 引用的服务)
+4. 启动 java-service (JavaServiceSpringBootDemo)
+5. 运行 rpc-proxy (SidecarBootstrap)
+6. 运行 java-client (GenericConsumerSpringBootDemo) 测试 java 调用 c++
+7. 运行 c++ demo client (tricycle_demo_client) 测试 c++ 调用 java
  
