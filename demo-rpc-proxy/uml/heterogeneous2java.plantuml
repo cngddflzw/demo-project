@@ -9,9 +9,9 @@ title C++ => Java 调用时序图
 
 == 服务调用 ==
 
-"C++" -> 代理层: 3. HTTP+JSON 调用
+"C++" -> 代理层: 3. Thrift 调用
 代理层 -> Java: 4. RPC 服务泛化调用
 Java -> 代理层: 5. RPC 服务泛化响应
-代理层 -> "C++": 6. HTTP+JSON 响应
+代理层 -> "C++": 6. Thrift 响应
 
 @enduml

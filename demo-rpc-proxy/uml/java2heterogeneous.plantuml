@@ -11,8 +11,8 @@ title Java => C++ 调用时序图
 
 Java -> 注册中心: 3. 服务发现
 Java -> 代理层: 4. RPC 服务泛化调用
-代理层 -> "C++": 5. HTTP+JSON 调用
-"C++" -> 代理层: 6. HTTP+JSON 响应
+代理层 -> "C++": 5. Thrift 调用
+"C++" -> 代理层: 6. Thrift 响应
 代理层 -> Java: 7. RPC 服务泛化响应
 
 @enduml

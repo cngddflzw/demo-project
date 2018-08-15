@@ -25,7 +25,7 @@ public class ThriftSidecarServer implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThriftSidecarServer.class);
     private static final int MIN_WORKER_THREAD = Runtime.getRuntime().availableProcessors() * 2;
 
-    @Value("${sidecar.thrift.server.port}")
+    @Value("${proxy.thrift.server.port}")
     private int port;
 
     @Resource

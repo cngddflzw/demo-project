@@ -2,16 +2,72 @@
 
 title 整体架构
 
-[CPService] as "C++ 服务"
-[Proxy] as "代理层"
-[Registry] as "注册中心"
-[JavaService] as "Java 服务"
+note left of tricycle_demo_server : cpp 被调服务器
+state tricycle_demo_server {
 
-[CPService] -> [Proxy] : 配置
-[CPService] <- [Proxy] : 检查
-[CPService] <-> [Proxy] : 调用
-[Proxy] -up-> [Registry] : 服务注册/发现
-[Proxy] <-> [JavaService] : 调用
-[JavaService] -> [Registry] : 服务发现
+    DemoService : FuncA
+    DemoService : FuncB
+
+    state InvokerMap {
+
+        InvokerA : 包装 FuncA
+        InvokerB : 包装 FuncB
+
+        InvokerA -right[hidden]-> InvokerB
+    }
+
+    CppThriftServer : 接收 java 被调请求
+
+    InvokerMap -up-> DemoService
+    CppThriftServer -up-> InvokerMap
+}
+
+note left of tricycle_demo_client : cpp 调用客户端
+state tricycle_demo_client {
+    CppThriftClient : 发送 java 调用请求
+}
+
+tricycle_demo_client -right[hidden]-> tricycle_demo_server
+
+note left of rpc_proxy : 代理层
+state rpc_proxy {
+
+    state CppInvokeService {
+        state JavaThriftClient : 调用 cpp 接口
+        state DubboGenericService1 : 接收 java 请求
+
+        DubboGenericService1 -up-> JavaThriftClient
+    }
+
+    state JavaInvokeService {
+        state JavaThriftServer : 接收 cpp 请求
+        state DubboGenericService2 : 调用 java 接口
+
+        JavaThriftServer -down-> DubboGenericService2
+    }
+
+    'JavaInvokeService : 调用 java service
+    'CppInvokeService : 调用 cpp service
+    JavaInvokeService -left[hidden]-> CppInvokeService
+
+    CppInvokeService -up-> CppThriftServer
+    CppThriftClient -up-> JavaInvokeService
+}
+
+note right of local_config : 本地服务配置
+state local_config {
+    service_config.json : 用于配置 cpp 需要暴露的服务
+    reference_config.json : 用于配置 cpp 需要引用的服务
+}
+
+local_config -down-> rpc_proxy : 配置加载
+
+note left of java_service : java dubbo 服务
+state java_service
+JavaInvokeService -down-> java_service
+
+note left of java_client : java dubbo 客户端
+state java_client
+java_client -up-> CppInvokeService
 
 @enduml
