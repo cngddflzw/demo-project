@@ -59,8 +59,8 @@ public class LocalFileServiceInitializer extends ServiceInitializer {
             if (isInJar) {
                 // jar 运行从 jar 所在文件夹读取文件
                 File jarDir = new File(
-                        this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI())
-                        .getParentFile();
+                        this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()
+                                .getPath()).getParentFile();
                 return new File(jarDir, fileName);
             } else {
                 // 从项目 resources 文件夹读取
