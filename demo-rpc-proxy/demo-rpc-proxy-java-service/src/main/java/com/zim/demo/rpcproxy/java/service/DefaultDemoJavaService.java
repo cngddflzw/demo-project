@@ -1,4 +1,4 @@
-package com.zim.demo.rpcproxy.java;
+package com.zim.demo.rpcproxy.java.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 

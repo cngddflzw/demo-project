@@ -1,6 +1,6 @@
 [
   {
-    "serviceName": "com.zim.demo.rpcproxy.java.DemoJavaService",
+    "serviceName": "com.zim.demo.rpcproxy.java.service.DemoJavaService",
     "group": "arch",
     "version": "1.0.0",
     "methodInfoMap": {

@@ -17,7 +17,8 @@
         <module>demo-rpc-proxy-sidecar</module>
         <!--<module>demo-rpc-proxy-heterogeneous</module>-->
         <module>demo-rpc-proxy-common</module>
-        <module>demo-rpc-proxy-java</module>
+        <module>demo-rpc-proxy-java-service</module>
+        <module>demo-rpc-proxy-java-client</module>
     </modules>
 
     <dependencyManagement>
@@ -70,7 +71,6 @@
                 <version>${curator.verison}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>org.apache.thrift</groupId>
                 <artifactId>libthrift</artifactId>
@@ -78,4 +78,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>

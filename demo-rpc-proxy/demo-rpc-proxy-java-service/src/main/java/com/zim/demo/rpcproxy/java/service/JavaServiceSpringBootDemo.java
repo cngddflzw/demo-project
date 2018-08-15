@@ -1,4 +1,4 @@
-package com.zim.demo.rpcproxy.java;
+package com.zim.demo.rpcproxy.java.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

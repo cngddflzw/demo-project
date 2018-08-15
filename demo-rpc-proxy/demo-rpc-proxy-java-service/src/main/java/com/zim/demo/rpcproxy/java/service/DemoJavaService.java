@@ -1,4 +1,4 @@
-package com.zim.demo.rpcproxy.java;
+package com.zim.demo.rpcproxy.java.service;
 
 /**
  * @author zhenwei.liu

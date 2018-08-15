@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Objects;
 import org.apache.curator.shaded.com.google.common.base.Charsets;
 import org.apache.curator.shaded.com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,9 +42,7 @@ public class LocalFileServiceInitializer extends ServiceInitializer {
 
     private List<DefaultServiceInfo> listServiceInfo(String file) {
         try {
-            return GsonHolder.gson().fromJson(Files.toString(new File(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource(file)).getFile()),
-                    Charsets.UTF_8), TR);
+            return GsonHolder.gson().fromJson(Files.toString(new File(file), Charsets.UTF_8), TR);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
