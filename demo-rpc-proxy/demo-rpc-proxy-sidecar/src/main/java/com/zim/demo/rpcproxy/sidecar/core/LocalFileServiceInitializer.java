@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.reflect.TypeToken;
 import com.zim.demo.rpcproxy.api.impl.DefaultServiceInfo;
 import com.zim.demo.rpcproxy.common.GsonHolder;
+import com.zim.demo.rpcproxy.common.PathUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -53,15 +54,10 @@ public class LocalFileServiceInitializer extends ServiceInitializer {
     }
 
     private File loadConfigFile(String fileName) {
-        String path = this.getClass().getResource("LocalFileServiceInitializer.class").toString();
-        boolean isInJar = path.startsWith("jar:") || path.startsWith("rsrc:");
         try {
-            if (isInJar) {
+            if (PathUtils.isInJar()) {
                 // jar 运行从 jar 所在文件夹读取文件
-                File jarDir = new File(
-                        this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()
-                                .getPath()).getParentFile();
-                return new File(jarDir, fileName);
+                return new File(PathUtils.getJarDir(), fileName);
             } else {
                 // 从项目 resources 文件夹读取
                 URL resource = Preconditions
