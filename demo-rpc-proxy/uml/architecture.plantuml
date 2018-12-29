@@ -1,5 +1,11 @@
 @startuml
 
+skinparam backgroundColor #EEEBDC
+
+skinparam defaultFontSize red
+skinparam defaultFontSize 15
+skinparam defaultFontName Aapex
+
 title 整体架构
 
 note left of tricycle_demo_server : cpp 被调服务器

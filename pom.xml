@@ -11,10 +11,10 @@
     <modules>
         <module>demo-dubbo</module>
         <module>demo-motan</module>
-        <module>demo-grpc</module>
+        <!--<module>demo-grpc</module>-->
         <module>demo-rpc-proxy</module>
         <module>demo-thrift</module>
-        <module>demo-asm</module>
+        <module>demo-instrument</module>
     </modules>
 
     <properties>

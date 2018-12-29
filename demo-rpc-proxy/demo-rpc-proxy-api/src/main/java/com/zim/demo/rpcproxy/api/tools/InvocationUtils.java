@@ -22,4 +22,15 @@ public class InvocationUtils {
                 .setMessage("fail")
                 .setMessage(message);
     }
+
+    public static void main(String[] args) throws Throwable {
+        Class<?> rr = Foo.class.getMethod("test").getReturnType();
+        System.out.println(rr);
+    }
+
+    private static class Foo {
+        public void test() {
+
+        }
+    }
 }
