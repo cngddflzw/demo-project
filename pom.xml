@@ -15,6 +15,7 @@
         <module>demo-rpc-proxy</module>
         <module>demo-thrift</module>
         <module>demo-instrument</module>
+        <module>demo-linkageerror</module>
     </modules>
 
     <properties>

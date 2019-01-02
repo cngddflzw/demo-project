@@ -27,9 +27,9 @@ public class ValueReplaceAdvisor {
 	@Advice.OnMethodEnter(skipOn = Advice.OnNonDefaultValue.class)
 	public static Object shouldReplaceValue(@Advice.Argument(0) String name) {
 		if (name.equals("abc")) {
-			return null;
+			return "replace value"; // 返回不为 null 时跳过方法执行
 		} else {
-			return "enter val";
+			return null;
 		}
 	}
 
@@ -37,8 +37,8 @@ public class ValueReplaceAdvisor {
 	public static Object replaceValue(
 			@Advice.Return(readOnly = false, typing = DYNAMIC) Object returned,
 			@Advice.Enter Object enter) {
-		if (enter == null) {
-			returned = "replaced value";
+		if (enter != null) {
+			returned = enter;
 		}
 		return returned;
 	}

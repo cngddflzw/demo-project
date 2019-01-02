@@ -49,13 +49,11 @@ public class AdviceReloadingTest {
 					}
 				});
 
-		Instruments.start(new InstrumentTask() {
-			public void run(Instrumentation instrumentation) {
-				extendable.installOn(instrumentation);
-			}
-		});
+		Instruments.start(extendable::installOn);
 
 		// 使用 advisor 后的输出
 		System.out.println(foo.test("abc"));
+		System.out.println(foo.test("efg"));
+		System.out.println(foo.test("kkk"));
 	}
 }
