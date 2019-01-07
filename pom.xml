@@ -16,6 +16,7 @@
         <module>demo-thrift</module>
         <module>demo-instrument</module>
         <module>demo-linkageerror</module>
+        <module>demo-sofa-ark</module>
     </modules>
 
     <properties>

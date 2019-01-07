@@ -35,36 +35,34 @@ public class BootStrapInstrumentTest {
 		Class<BootStrapInstrumentTest> clz = BootStrapInstrumentTest.class;
 		System.out.println(clz.toString());
 
-		InstrumentTask task = new InstrumentTask() {
-			public void run(Instrumentation inst) {
-				File temp = null;
-				try {
-					temp = Files.createTempDirectory("test_dir").toFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				UsingInstrumentation
-						.of(temp, Target.BOOTSTRAP, inst)
-						.inject(Collections.singletonMap(
-								new ForLoadedType(ToStringAdvisor.class),
-								ForClassLoader.read(ToStringAdvisor.class)
-						));
-
-				new AgentBuilder.Default()
-						.with(StreamWriting.toSystemOut().withErrorsOnly())
-						.with(StreamWriting.toSystemOut().withTransformationsOnly())
-						.with(RedefinitionStrategy.REDEFINITION)
-						.with(Default.REDEFINE)
-						.ignore(none())
-						// 由于 bootstrap classloader 没有 ToStringAdvisor, 所以要将 Advisor 类注入进去
-						.enableBootstrapInjection(inst, temp)
-						.disableClassFormatChanges()
-						.type(is(Class.class))
-						.transform((builder, typeDescription, classLoader, module) ->
-								builder.visit(Advice.to(ToStringAdvisor.class)
-										.on(ElementMatchers.named("toString"))))
-						.installOn(inst);
+		InstrumentTask task = inst -> {
+			File temp = null;
+			try {
+				temp = Files.createTempDirectory("test_dir").toFile();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			UsingInstrumentation
+					.of(temp, Target.BOOTSTRAP, inst)
+					.inject(Collections.singletonMap(
+							new ForLoadedType(ToStringAdvisor.class),
+							ForClassLoader.read(ToStringAdvisor.class)
+					));
+
+			new AgentBuilder.Default()
+					.with(StreamWriting.toSystemOut().withErrorsOnly())
+					.with(StreamWriting.toSystemOut().withTransformationsOnly())
+					.with(RedefinitionStrategy.REDEFINITION)
+					.with(Default.REDEFINE)
+					.ignore(none())
+					// 由于 bootstrap classloader 没有 ToStringAdvisor, 所以要将 Advisor 类注入进去
+					.enableBootstrapInjection(inst, temp)
+					.disableClassFormatChanges()
+					.type(is(Class.class))
+					.transform((builder, typeDescription, classLoader, module) ->
+							builder.visit(Advice.to(ToStringAdvisor.class)
+									.on(ElementMatchers.named("toString"))))
+					.installOn(inst);
 		};
 
 		Instruments.start(task);

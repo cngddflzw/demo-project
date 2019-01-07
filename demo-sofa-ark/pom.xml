@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>demo-project</artifactId>
+        <groupId>com.zim.demo</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>demo-sofa-ark</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>demo-sofa-ark-plugin</module>
+        <module>demo-sofa-ark-biz</module>
+    </modules>
+
+    <properties>
+        <sofa.ark.version>0.5.2</sofa.ark.version>
+        <jackson.version>2.9.7</jackson.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-afterburner</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.alipay.sofa</groupId>
+                    <artifactId>sofa-ark-plugin-maven-plugin</artifactId>
+                    <version>${sofa.ark.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.alipay.sofa</groupId>
+                    <artifactId>sofa-ark-maven-plugin</artifactId>
+                    <version>${sofa.ark.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
