@@ -8,7 +8,6 @@ import com.zim.demo.instrument.client.Instruments;
 import com.zim.demo.instrument.test.auxiliary.ToStringAdvisor;
 import java.io.File;
 import java.io.IOException;
-import java.lang.instrument.Instrumentation;
 import java.nio.file.Files;
 import java.util.Collections;
 import net.bytebuddy.agent.builder.AgentBuilder;
