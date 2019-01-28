@@ -12,6 +12,7 @@ public class Foo {
 	private int counter = 0;
 
 	public String test(String name) {
+		System.out.println("this : " + this.getClass());
 		counter += 10;
 		staticCount += 10;
 		System.out.println("static count: " + staticCount + " | counter " + counter);

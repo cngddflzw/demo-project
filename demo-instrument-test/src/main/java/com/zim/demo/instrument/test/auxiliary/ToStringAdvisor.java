@@ -10,8 +10,15 @@ import net.bytebuddy.asm.Advice;
  */
 public class ToStringAdvisor {
 
-	@Advice.OnMethodExit
-	public static void replaceValue(@Advice.Return(readOnly = false, typing = DYNAMIC) Object returned) {
-		returned = "hacked value";
+//	@Advice.OnMethodExit
+//	public static void replaceValue(@Advice.Return(readOnly = false, typing = DYNAMIC) Object returned) {
+//		System.out.println("hhhhhhhhhh");
+//		returned = "hacked value";
+//	}
+
+	@Advice.OnMethodEnter
+	public static void replaceValue() {
+		System.out.println("hhhhhhhhhh");
+//		returned = "hacked value";
 	}
 }
