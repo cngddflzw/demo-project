@@ -22,7 +22,7 @@ import net.bytebuddy.dynamic.loading.ClassInjector.UsingInstrumentation.Target;
 import net.bytebuddy.matcher.ElementMatchers;
 
 /**
- * FIXME 目前对 Thread 的插桩还有问题, 就是在 Debug 模式下, 插桩会失效, 无论是用 redefinition 还是用 restransformation
+ * FIXME Please install the instrument-client project to your local repository in the other module
  *
  * @author zhenwei.liu
  * @since 2019-01-25
@@ -61,11 +61,12 @@ public class ThreadInstrumentTest {
 					.installOn(inst);
 		};
 
-//		System.out.println("#### 1 " + Thread.currentThread().getContextClassLoader());
 		System.out.println("#### 1 " + Thread.currentThread().getContextClassLoader());
 
 		Instruments.start(task);
 
+		// this code would print "test hacked" instrumented by ThreadAdvisor.class
+		// while failed in Debug mode
 		System.out.println("### 2 " + Thread.currentThread().getContextClassLoader());
 	}
 
