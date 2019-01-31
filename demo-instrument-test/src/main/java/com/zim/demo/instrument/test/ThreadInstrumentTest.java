@@ -3,11 +3,14 @@ package com.zim.demo.instrument.test;
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static net.bytebuddy.matcher.ElementMatchers.none;
 
-import com.zim.demo.instrument.client.InstrumentTask;
-import com.zim.demo.instrument.client.Instruments;
+import com.google.common.base.Splitter;
+import com.sun.tools.attach.VirtualMachine;
 import com.zim.demo.instrument.test.auxiliary.ThreadAdvisor;
 import java.io.File;
 import java.io.IOException;
+import java.lang.instrument.Instrumentation;
+import java.lang.management.ManagementFactory;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.Collections;
 import net.bytebuddy.agent.builder.AgentBuilder;
@@ -22,8 +25,6 @@ import net.bytebuddy.dynamic.loading.ClassInjector.UsingInstrumentation.Target;
 import net.bytebuddy.matcher.ElementMatchers;
 
 /**
- * FIXME Please install the instrument-client project to your local repository in the other module
- *
  * @author zhenwei.liu
  * @since 2019-01-25
  */
@@ -31,39 +32,45 @@ public class ThreadInstrumentTest {
 
 	public static void main(String[] args) throws Exception {
 
-		InstrumentTask task = inst -> {
-			File temp = null;
-			try {
-				temp = Files.createTempDirectory("test_dir").toFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			UsingInstrumentation
-					.of(temp, Target.BOOTSTRAP, inst)
-					.inject(Collections.singletonMap(
-							new ForLoadedType(ThreadAdvisor.class),
-							ForClassLoader.read(ThreadAdvisor.class)
-					));
-
-			new AgentBuilder.Default()
-					.with(StreamWriting.toSystemOut().withErrorsOnly())
-					.with(StreamWriting.toSystemOut().withTransformationsOnly())
-//					.with(RedefinitionStrategy.REDEFINITION)
-					.with(RedefinitionStrategy.RETRANSFORMATION)
-					.with(Default.REDEFINE)
-					.ignore(none())
-					.enableBootstrapInjection(inst, temp)
-					.disableClassFormatChanges()
-					.type(is(Thread.class))
-					.transform((builder, typeDescription, classLoader, module) ->
-							builder.visit(Advice.to(ThreadAdvisor.class)
-									.on(ElementMatchers.named("getContextClassLoader"))))
-					.installOn(inst);
-		};
-
 		System.out.println("#### 1 " + Thread.currentThread().getContextClassLoader());
 
-		Instruments.start(task);
+		String name = ManagementFactory.getRuntimeMXBean().getName();
+		String pid = Splitter.on('@').split(name).iterator().next();
+		VirtualMachine vm = VirtualMachine.attach(pid);
+		vm.loadAgent(ThreadInstrumentTest.class.getClassLoader().getResource("instrument-agent.jar").getPath());
+
+		Class<?> agentClazz = Class.forName("com.zim.demo.instrument.agent.AgentMain");
+		Field instField = agentClazz.getDeclaredField("inst");
+		instField.setAccessible(true);
+		Instrumentation inst = (Instrumentation) instField.get(agentClazz);
+
+		File temp = null;
+		try {
+			temp = Files.createTempDirectory("test_dir").toFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		UsingInstrumentation
+				.of(temp, Target.BOOTSTRAP, inst)
+				.inject(Collections.singletonMap(
+						new ForLoadedType(ThreadAdvisor.class),
+						ForClassLoader.read(ThreadAdvisor.class)
+				));
+
+		new AgentBuilder.Default()
+				.with(StreamWriting.toSystemOut().withErrorsOnly())
+				.with(StreamWriting.toSystemOut().withTransformationsOnly())
+//					.with(RedefinitionStrategy.REDEFINITION)
+				.with(RedefinitionStrategy.RETRANSFORMATION)
+				.with(Default.REDEFINE)
+				.ignore(none())
+				.enableBootstrapInjection(inst, temp)
+				.disableClassFormatChanges()
+				.type(is(Thread.class))
+				.transform((builder, typeDescription, classLoader, module) ->
+						builder.visit(Advice.to(ThreadAdvisor.class)
+								.on(ElementMatchers.named("getContextClassLoader"))))
+				.installOn(inst);
 
 		// this code would print "test hacked" instrumented by ThreadAdvisor.class
 		// while failed in Debug mode
