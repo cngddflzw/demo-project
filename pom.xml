@@ -17,6 +17,8 @@
         <module>demo-instrument</module>
         <module>demo-linkageerror</module>
         <module>demo-sofa-ark</module>
+        <module>demo-depdencies-no-pom-file</module>
+        <module>demo-executable-fat-jar</module>
     </modules>
 
     <properties>

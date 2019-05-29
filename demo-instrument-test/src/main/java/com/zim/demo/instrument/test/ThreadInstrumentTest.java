@@ -1,6 +1,7 @@
 package com.zim.demo.instrument.test;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
+import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.none;
 
 import com.google.common.base.Splitter;
@@ -34,15 +35,7 @@ public class ThreadInstrumentTest {
 
 		System.out.println("#### 1 " + Thread.currentThread().getContextClassLoader());
 
-		String name = ManagementFactory.getRuntimeMXBean().getName();
-		String pid = Splitter.on('@').split(name).iterator().next();
-		VirtualMachine vm = VirtualMachine.attach(pid);
-		vm.loadAgent(ThreadInstrumentTest.class.getClassLoader().getResource("instrument-agent.jar").getPath());
-
-		Class<?> agentClazz = Class.forName("com.zim.demo.instrument.agent.AgentMain");
-		Field instField = agentClazz.getDeclaredField("inst");
-		instField.setAccessible(true);
-		Instrumentation inst = (Instrumentation) instField.get(agentClazz);
+		Instrumentation inst = InstrumentUtils.getInst();
 
 		File temp = null;
 		try {
@@ -66,7 +59,8 @@ public class ThreadInstrumentTest {
 				.ignore(none())
 				.enableBootstrapInjection(inst, temp)
 				.disableClassFormatChanges()
-				.type(is(Thread.class))
+//				.type(is(Thread.class))
+				.type(named("java.lang.Thread"))
 				.transform((builder, typeDescription, classLoader, module) ->
 						builder.visit(Advice.to(ThreadAdvisor.class)
 								.on(ElementMatchers.named("getContextClassLoader"))))
@@ -75,6 +69,8 @@ public class ThreadInstrumentTest {
 		// this code would print "test hacked" instrumented by ThreadAdvisor.class
 		// while failed in Debug mode
 		System.out.println("### 2 " + Thread.currentThread().getContextClassLoader());
+
+		System.out.println(new Thread().getContextClassLoader());
 	}
 
 }
