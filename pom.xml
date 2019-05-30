@@ -19,6 +19,7 @@
         <module>demo-sofa-ark</module>
         <module>demo-depdencies-no-pom-file</module>
         <module>demo-executable-fat-jar</module>
+        <module>demo-docx4j</module>
     </modules>
 
     <properties>
