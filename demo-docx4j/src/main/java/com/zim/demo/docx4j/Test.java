@@ -36,13 +36,13 @@ import org.jvnet.jaxb2_commons.ppp.Child;
 public class Test {
 
 	public static void main(String[] args) throws Exception {
-		String inPath = "/Users/liuzhenwei/Desktop/testword/Abc456.docx";
-		String outPath = "/Users/liuzhenwei/Desktop/testword/Abc456.pdf";
-		String outDocs = "/Users/liuzhenwei/Desktop/testword/Abc456xxx.docx";
+//		String inPath = "/Users/liuzhenwei/Desktop/testword/Abc456.docx";
+//		String outPath = "/Users/liuzhenwei/Desktop/testword/Abc456.pdf";
+//		String outDocs = "/Users/liuzhenwei/Desktop/testword/Abc456xxx.docx";
 
 
-//		String inPath = "/Users/liuzhenwei/Desktop/word/testa.docx";
-//		String outPath = "/Users/liuzhenwei/Desktop/word/testa.pdf";
+		String inPath = "/Users/liuzhenwei/Desktop/word/final.docx";
+		String outPath = "/Users/liuzhenwei/Desktop/word/final.pdf";
 //		String outDocs = "/Users/liuzhenwei/Desktop/word/testa2.docx";
 
 		WordprocessingMLPackage word = Docx4J.load(new File(inPath));
@@ -51,52 +51,52 @@ public class Test {
 		Body body = doc.getBody();
 
 		// TODO 1 delete comment
-		CommentFinder cf = new CommentFinder();
-		new TraversalUtil(body, cf);
-
-		for (Child commentElement : cf.getCommentElements()) {
-			System.out.println(commentElement.getClass().getName());
-			Object parent = commentElement.getParent();
-			List<Object> theList = ((ContentAccessor) parent).getContent();
-			boolean removeResult = remove(theList, commentElement);
-			System.out.println(removeResult);
-		}
-
-		// 换行符删除特殊处理
-//		ClassFinder classFinder = new ClassFinder(RunDel.class);
-//		new TraversalUtil(body, classFinder);
-		List<Object> content = Lists.newArrayList(body.getContent());
-		for (Object o : content) {
-			System.out.println(o.getClass().getName());
-			if (o instanceof P) {
-				if (((P) o).getRsidDel() != null) {
-					boolean removeResult = remove(body.getContent(), o);
-					System.out.println(removeResult);
-				}
-			}
-		}
-
-		// TODO 2 apply tracking changes
-		// Load the XLST
-		Source xsltSource = new StreamSource(
-				ResourceUtils.getResource(
-						"AcceptChanges.xslt")
-		);
-		Templates xslt = XmlUtils.getTransformerTemplate(xsltSource);
-
-		DOMResult contentAccepted = new DOMResult();
-
-		// perform the transformation
-		main.transform(xslt, null, contentAccepted);
-
-		// replace the contents in the WordprocessingMLPackage
-		org.w3c.dom.Document domDoc = (org.w3c.dom.Document) contentAccepted.getNode();
-		main.setContents(
-				main.unmarshal(domDoc.getDocumentElement()));
+//		CommentFinder cf = new CommentFinder();
+//		new TraversalUtil(body, cf);
 //
-//		// save docs
-		Docx4J.save(word, new File(outDocs), Docx4J.FLAG_NONE); //(FLAG_NONE == default == zipped docx)
-		System.out.println("Saved: " + outDocs);
+//		for (Child commentElement : cf.getCommentElements()) {
+//			System.out.println(commentElement.getClass().getName());
+//			Object parent = commentElement.getParent();
+//			List<Object> theList = ((ContentAccessor) parent).getContent();
+//			boolean removeResult = remove(theList, commentElement);
+//			System.out.println(removeResult);
+//		}
+//
+//		// 换行符删除特殊处理
+////		ClassFinder classFinder = new ClassFinder(RunDel.class);
+////		new TraversalUtil(body, classFinder);
+//		List<Object> content = Lists.newArrayList(body.getContent());
+//		for (Object o : content) {
+//			System.out.println(o.getClass().getName());
+//			if (o instanceof P) {
+//				if (((P) o).getRsidDel() != null) {
+//					boolean removeResult = remove(body.getContent(), o);
+//					System.out.println(removeResult);
+//				}
+//			}
+//		}
+//
+//		// TODO 2 apply tracking changes
+//		// Load the XLST
+//		Source xsltSource = new StreamSource(
+//				ResourceUtils.getResource(
+//						"AcceptChanges.xslt")
+//		);
+//		Templates xslt = XmlUtils.getTransformerTemplate(xsltSource);
+//
+//		DOMResult contentAccepted = new DOMResult();
+//
+//		// perform the transformation
+//		main.transform(xslt, null, contentAccepted);
+//
+//		// replace the contents in the WordprocessingMLPackage
+//		org.w3c.dom.Document domDoc = (org.w3c.dom.Document) contentAccepted.getNode();
+//		main.setContents(
+//				main.unmarshal(domDoc.getDocumentElement()));
+////
+////		// save docs
+//		Docx4J.save(word, new File(outDocs), Docx4J.FLAG_NONE); //(FLAG_NONE == default == zipped docx)
+//		System.out.println("Saved: " + outDocs);
 
 		// TODO 3 convert to pdf
 

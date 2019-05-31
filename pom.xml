@@ -20,7 +20,8 @@
         <module>demo-depdencies-no-pom-file</module>
         <module>demo-executable-fat-jar</module>
         <module>demo-docx4j</module>
-    </modules>
+		<module>demo-xdoc-report</module>
+	</modules>
 
     <properties>
         <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
