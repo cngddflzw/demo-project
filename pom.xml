@@ -2,139 +2,215 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zim.demo</groupId>
-    <artifactId>demo-project</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
-    <modules>
-        <module>demo-dubbo</module>
-        <module>demo-motan</module>
-        <!--<module>demo-grpc</module>-->
-        <module>demo-rpc-proxy</module>
-        <module>demo-thrift</module>
-        <module>demo-instrument</module>
-        <module>demo-linkageerror</module>
-        <module>demo-sofa-ark</module>
-        <module>demo-depdencies-no-pom-file</module>
-        <module>demo-executable-fat-jar</module>
-        <module>demo-docx4j</module>
+	<groupId>com.zim.demo</groupId>
+	<artifactId>demo-project</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<modules>
+		<module>demo-dubbo</module>
+		<module>demo-motan</module>
+		<!--<module>demo-grpc</module>-->
+		<module>demo-rpc-proxy</module>
+		<module>demo-thrift</module>
+		<module>demo-instrument</module>
+		<module>demo-linkageerror</module>
+		<module>demo-sofa-ark</module>
+		<module>demo-depdencies-no-pom-file</module>
+		<module>demo-executable-fat-jar</module>
+		<module>demo-docx4j</module>
 		<module>demo-xdoc-report</module>
+		<module>demo-kafka</module>
 	</modules>
 
-    <properties>
-        <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
-        <dubbo.version>2.6.2</dubbo.version>
-        <dubbo.spring.boot.version>0.2.0</dubbo.spring.boot.version>
-        <javax.ws.rs.version>2.1</javax.ws.rs.version>
-        <apache.httpcomponents.version>4.5.5</apache.httpcomponents.version>
-        <resteasy.version>3.6.0.Final</resteasy.version>
-        <jackson.version>2.9.6</jackson.version>
-        <tomcat.embed.version>8.5.2</tomcat.embed.version>
-        <javax.validation.version>2.0.1.Final</javax.validation.version>
-        <weibo.motan.version>1.1.1</weibo.motan.version>
-        <io.grpc.version>1.13.2</io.grpc.version>
-        <fastjson.version>1.2.49</fastjson.version>
-        <httpclient.version>4.5.6</httpclient.version>
-        <guava.version>25.1-jre</guava.version>
-        <okhttp.version>3.11.0</okhttp.version>
-        <curator.verison>2.12.0</curator.verison>
-        <thrift.verison>0.11.0</thrift.verison>
-        <gson.verison>2.8.5</gson.verison>
-    </properties>
+	<properties>
+		<spring.boot.version>2.0.3.RELEASE</spring.boot.version>
+		<dubbo.version>2.6.2</dubbo.version>
+		<dubbo.spring.boot.version>0.2.0</dubbo.spring.boot.version>
+		<javax.ws.rs.version>2.1</javax.ws.rs.version>
+		<apache.httpcomponents.version>4.5.5</apache.httpcomponents.version>
+		<resteasy.version>3.6.0.Final</resteasy.version>
+		<jackson.version>2.9.6</jackson.version>
+		<tomcat.embed.version>8.5.2</tomcat.embed.version>
+		<javax.validation.version>2.0.1.Final</javax.validation.version>
+		<weibo.motan.version>1.1.1</weibo.motan.version>
+		<io.grpc.version>1.13.2</io.grpc.version>
+		<fastjson.version>1.2.49</fastjson.version>
+		<httpclient.version>4.5.6</httpclient.version>
+		<guava.version>25.1-jre</guava.version>
+		<okhttp.version>3.11.0</okhttp.version>
+		<curator.verison>2.12.0</curator.verison>
+		<thrift.verison>0.11.0</thrift.verison>
+		<gson.verison>2.8.5</gson.verison>
+		<logback.version>1.2.3</logback.version>
+		<slf4j.version>1.7.26</slf4j.version>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
+	<dependencyManagement>
+		<dependencies>
 
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 
-            <dependency>
-                <groupId>com.zim.demo.dubbo</groupId>
-                <artifactId>demo-dubbo-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>com.zim.demo.dubbo</groupId>
+				<artifactId>demo-dubbo-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${dubbo.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>${dubbo.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.alibaba.boot</groupId>
-                <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>${dubbo.spring.boot.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>com.alibaba.boot</groupId>
+				<artifactId>dubbo-spring-boot-starter</artifactId>
+				<version>${dubbo.spring.boot.version}</version>
+			</dependency>
 
-            <!-- For rest demo -->
-            <dependency>
-                <groupId>javax.ws.rs</groupId>
-                <artifactId>javax.ws.rs-api</artifactId>
-                <version>${javax.ws.rs.version}</version>
-            </dependency>
+			<!-- For rest demo -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>${javax.ws.rs.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${apache.httpcomponents.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${apache.httpcomponents.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-client</artifactId>
-                <version>${resteasy.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-client</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-json-binding-provider</artifactId>
-                <version>${resteasy.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-json-binding-provider</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>${javax.validation.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${javax.validation.version}</version>
+			</dependency>
 
-            <!-- End For rest demo-->
+			<!-- End For rest demo-->
 
-        </dependencies>
-    </dependencyManagement>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring.boot.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.boot.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
