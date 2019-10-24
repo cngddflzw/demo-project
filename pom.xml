@@ -22,6 +22,8 @@
 		<module>demo-docx4j</module>
 		<module>demo-xdoc-report</module>
 		<module>demo-kafka</module>
+		<module>demo-activiti</module>
+		<module>demo-spring-boot</module>
 	</modules>
 
 	<properties>
