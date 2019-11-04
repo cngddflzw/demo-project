@@ -24,6 +24,7 @@
 		<module>demo-kafka</module>
 		<module>demo-activiti</module>
 		<module>demo-spring-boot</module>
+		<module>demo-springboot-tomcat</module>
 	</modules>
 
 	<properties>
