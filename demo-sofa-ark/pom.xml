@@ -18,7 +18,7 @@
 
     <properties>
         <sofa.ark.version>0.5.2</sofa.ark.version>
-        <jackson.version>2.9.7</jackson.version>
+        <jackson.version>2.10.1</jackson.version>
     </properties>
 
     <dependencyManagement>
