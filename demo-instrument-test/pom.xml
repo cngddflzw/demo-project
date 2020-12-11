@@ -28,7 +28,7 @@
 
     <properties>
         <instrument.version>1.0.0-SNAPSHOT</instrument.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
