@@ -25,6 +25,7 @@
 		<module>demo-activiti</module>
 		<module>demo-spring-boot</module>
 		<module>demo-springboot-tomcat</module>
+		<module>demo-graphql</module>
 	</modules>
 
 	<properties>
