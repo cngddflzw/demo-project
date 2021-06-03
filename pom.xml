@@ -34,7 +34,7 @@
 		<dubbo.spring.boot.version>0.2.0</dubbo.spring.boot.version>
 		<javax.ws.rs.version>2.1</javax.ws.rs.version>
 		<apache.httpcomponents.version>4.5.5</apache.httpcomponents.version>
-		<resteasy.version>3.6.0.Final</resteasy.version>
+		<resteasy.version>4.5.7.Final</resteasy.version>
 		<jackson.version>2.9.6</jackson.version>
 		<tomcat.embed.version>8.5.2</tomcat.embed.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
