@@ -30,7 +30,7 @@
 
 	<properties>
 		<spring.boot.version>2.0.3.RELEASE</spring.boot.version>
-		<dubbo.version>2.6.2</dubbo.version>
+		<dubbo.version>2.6.9</dubbo.version>
 		<dubbo.spring.boot.version>0.2.0</dubbo.spring.boot.version>
 		<javax.ws.rs.version>2.1</javax.ws.rs.version>
 		<apache.httpcomponents.version>4.5.5</apache.httpcomponents.version>
